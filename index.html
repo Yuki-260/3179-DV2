@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Museums in Australia: preserving history, reaching today's audience</title>
+<meta name="description" content="An interactive data story on Australian museums, built with Vega-Lite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<style>
+:root{--ink:#16262B;--soft:#4a5a5d;--bg:#F3F4F0;--rule:#D5D9D3;--ver:#2A7F74;--deep:#14524B;--amb:#C9862B;--tint:#E3EEEA}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Public Sans",system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+header.hero{background:var(--deep);color:#F3F4F0;padding:72px 0 64px}
+header.hero h1{font:600 clamp(2.1rem,5vw,3.6rem)/1.08 "Fraunces",Georgia,serif;letter-spacing:-.015em;margin:0 0 20px;max-width:17em}
+header.hero .hook{font:600 1.3rem "Fraunces",Georgia,serif;color:#F4D9B4;margin:0 0 18px}
+header.hero p{font-size:1.1rem;max-width:40em;margin:0 0 14px;color:#DCEBE7}
+section{padding:60px 0 20px;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0}
+h2{font:600 clamp(1.5rem,3vw,2.1rem)/1.15 "Fraunces",Georgia,serif;margin:0 0 14px;max-width:22em}
+.lede{max-width:64ch;color:var(--soft);margin:0 0 32px}
+.lede strong{color:var(--ink);font-weight:600}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 48px;margin-bottom:16px;align-items:start}
+.one{max-width:560px}
+figure{margin:0;min-width:0}
+.plot{overflow-x:auto;overflow-y:hidden}
+.plot svg{max-width:100%;height:auto}
+figcaption{font-size:.88rem;color:var(--soft);max-width:60ch;margin-top:10px;line-height:1.5}
+figcaption a{color:var(--deep);font-weight:500}
+.swap-note{display:inline-block;margin-top:6px;font-size:.78rem;font-weight:600;color:var(--amb);background:#FBF0DF;padding:2px 8px;border-radius:4px}
+.closing{background:var(--deep);color:#F3F4F0;padding:56px 0;margin-top:40px}
+.closing h2{color:#fff}
+.closing p{max-width:60ch;color:#DCEBE7;font-size:1.05rem}
+footer{background:#E8EBE5;padding:48px 0 56px;font-size:.92rem;color:var(--soft)}
+footer h3{font:600 1.2rem "Fraunces",Georgia,serif;color:var(--ink);margin:28px 0 8px}
+footer h3:first-child{margin-top:0}
+footer p,footer li{max-width:75ch;line-height:1.55}
+footer a{color:var(--deep)}
+table.plan{border-collapse:collapse;width:100%;max-width:760px;font-size:.88rem;margin-top:8px}
+table.plan th,table.plan td{border:1px solid var(--rule);padding:6px 10px;text-align:left}
+table.plan th{background:#EDEFE9}
+:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+@media (max-width:900px){.grid3,.grid2{grid-template-columns:minmax(0,1fr)}.wrap{padding:0 18px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<h1>Museums in Australia: preserving history, reaching today's audience</h1>
+<p class="hook">17.2% of Australians aged 15+ visited a museum in 2021–22 — and almost six in ten of them went only once.</p>
+<p>This page compares who museums reach, where, and how that's changing, using ABS survey data and six years of Sydney institution visit counts. Several panels below use a different chart idiom or a narrower date range than first planned — both are explained where they appear, since no real data exists for the original scope.</p>
+</div></header>
+
+<main class="wrap">
+
+<section>
+<h2>Where Australia goes to museums</h2>
+<p class="lede">Nationally <strong>17.2%</strong> of people aged 15+ visited a museum in a year. The Northern Territory (<strong>30.8%</strong>) and ACT (<strong>29.7%</strong>) lead; Victoria (<strong>13.5%</strong>) trails, despite holding the second-largest population.</p>
+<div class="one" style="max-width:720px;margin-bottom:16px">
+<figure><div class="plot" id="c01"></div><figcaption>Choropleth — use the dropdown to switch between museums, art galleries, libraries/archives and cinemas. <a href="specs/c01_choropleth.json">JSON</a></figcaption></figure>
+</div>
+<div class="grid2">
+<figure><div class="plot" id="c02"></div><figcaption>Symbol map — museum visitors by state. <a href="specs/c02_symbol_map.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c03"></div><figcaption>Tile-grid cartogram. <span class="swap-note">Swapped</span> — "domestic visitor flow" needs origin→destination travel data, which doesn't exist in any source file. Shown instead: each state's museum preference relative to art galleries. <a href="specs/c03_tile_grid.json">JSON</a></figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>Six years at Sydney's state institutions</h2>
+<p class="lede">New South Wales publishes yearly visits for six state institutions, all in Sydney. <strong>Note:</strong> this is the full extent of the time-series data available — six NSW institutions, 2018–19 to 2023–24. There is no national series and nothing back to 2000, so the streamgraph and slope chart below are rescoped accordingly rather than showing a 2000–2024 or national picture.</p>
+<div class="one"><figure><div class="plot" id="c12"></div><figcaption>Streamgraph. <span class="swap-note">Rescoped</span> — NSW only, 6 years, not national/24-year. <a href="specs/c12_streamgraph.json">JSON</a></figcaption></figure></div>
+<div class="grid2">
+<figure><div class="plot" id="c13"></div><figcaption>Dumbbell — pre-pandemic vs today. <a href="specs/c13_dumbbell_covid.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c17"></div><figcaption>Slope chart — rank shift. <span class="swap-note">Rescoped</span> — 2018–19 vs 2023–24, not 2015 vs 2024. <a href="specs/c17_slope_rank.json">JSON</a></figcaption></figure>
+</div>
+<div class="grid2">
+<figure><div class="plot" id="c16"></div><figcaption>Box plot — visit volatility. <span class="swap-note">Swapped</span> — no exhibition run-length data exists; shown instead is the spread of each institution's own annual visits. <a href="specs/c16_boxplot_institution.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c11"></div><figcaption>Point map of the six Sydney sites, for reference. <a href="specs/c11_sydney_map.json">JSON</a></figcaption></figure>
+</div>
+<p class="lede" style="margin-top:8px">Each institution counts "a visit" by its own method (noted in the data), so compare each line with its own past rather than across institutions. The Powerhouse's 2023–24 dip reflects its Ultimo site partially closing in Feb 2024 for heritage works, not a drop in interest.</p>
+</section>
+
+<section>
+<h2>Who walks through the door?</h2>
+<p class="lede">Attendance climbs through early adulthood, peaks at <strong>35–44</strong> (24.4%), then falls — and splits sharply by education and income.</p>
+<div class="grid2">
+<figure><div class="plot" id="c14"></div><figcaption>Radial chart. <span class="swap-note">Swapped</span> — no seasonal/monthly data exists; shown instead is attendance rate by age group, reframed as a life-stage pattern. <a href="specs/c14_radial_age.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c09"></div><figcaption>Education and income gap. <a href="specs/c09_who_goes.json">JSON</a></figcaption></figure>
+</div>
+<div class="grid2">
+<figure><div class="plot" id="c08"></div><figcaption>Age × sex breakdown. <a href="specs/c08_butterfly.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c15"></div><figcaption>Treemap. <span class="swap-note">Swapped</span> — no museum collection-size data exists; shown instead is museums' attendance rate among other cultural venues. <a href="specs/c15_treemap_venues.json">JSON</a></figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>How often do they come back?</h2>
+<p class="lede">If 100 museum-goers were squares: most visited only once in the past 12 months.</p>
+<div class="one"><figure><div class="plot" id="c10"></div><figcaption>Icon array / pictogram. <span class="swap-note">Swapped</span> — no education-program/student-reach data exists; shown instead is visit frequency, the closest real pictogram-worthy figure in the data. <a href="specs/c10_waffle.json">JSON</a></figcaption></figure></div>
+</section>
+
+</main>
+
+<div class="closing"><div class="wrap">
+<h2>Preservation vs. engagement</h2>
+<p>The data measure who comes, not what's on display — but three things stand out. Repeat visits are rare, so new exhibitions matter for pulling people back. Access is uneven: lower-income and lower-education groups visit far less, and regional areas trail capital cities. And change can work: the Australian Museum's visits grew almost fourfold since 2018–19, while the Powerhouse's heritage closure shows that protecting an old building can cost visitors in the short term. Preserving the past and reaching today's audience aren't opposites — but neither happens automatically.</p>
+</div></div>
+
+<footer><div class="wrap">
+<h3>Swaps and rescopes from the original sketch</h3>
+<table class="plan">
+<tr><th>Sketch panel</th><th>What's shown instead</th><th>Why</th></tr>
+<tr><td>Cartogram — domestic visitor flow</td><td>Tile-grid cartogram, museum vs gallery preference</td><td>No origin→destination travel data in any source</td></tr>
+<tr><td>Streamgraph — trends 2000–2024</td><td>NSW institutions only, 2018–19 to 2023–24</td><td>No national or pre-2018 series exists</td></tr>
+<tr><td>Radial — seasonal pattern</td><td>Radial chart of attendance by age group</td><td>No monthly/seasonal data in any source</td></tr>
+<tr><td>Treemap — collection size by category</td><td>Treemap of venue types by attendance rate</td><td>No museum collection-size data exists</td></tr>
+<tr><td>Matrix heatmap — exhibition themes × museum</td><td>Kept conceptually, repurposed as institution × year recovery</td><td>No exhibition-theme data exists</td></tr>
+<tr><td>Box plot — exhibition run-length spread</td><td>Box plot of each institution's annual visit volatility</td><td>No exhibition run-length data exists</td></tr>
+<tr><td>Slope chart — rank shift, 2015 vs 2024</td><td>Rank shift, 2018–19 vs 2023–24</td><td>No 2015 or national data exists</td></tr>
+<tr><td>Icon array — students via education programs</td><td>Pictogram of visit frequency</td><td>No education-program data exists</td></tr>
+</table>
+
+<h3>Data sources</h3>
+<ul>
+<li>Australian Bureau of Statistics, <em>Cultural and creative activities, 2021–22</em>, Tables 14, 16, 19–21, released 21 April 2023.</li>
+<li>Australian Bureau of Statistics, <em>National, state and territory population</em> (3101.0), Table 4, June 2022 quarter.</li>
+<li>NSW cultural institutions, <em>In-person visits to cultural institutions, NSW</em> workbook, 2018–19 to 2023–24. [Add publisher and URL]</li>
+<li>State boundaries: github.com/rowanhogan/australian-states, simplified. [Confirm licence]</li>
+</ul>
+<h3>Limits</h3>
+<p>No source file contains collection sizes, exhibition counts, seasonal visitation, education-program reach, or inter-state visitor flow — the eight panels above that swap or rescope do so because that data simply isn't available, not by design choice. ABS figures are survey estimates; NSW visits are rounded to 0.1 million and counted by each institution's own method.</p>
+<h3>Acknowledgement</h3>
+<p>Built with Vega-Lite. An AI assistant (Claude, Anthropic) helped write the code and page text; [describe your own contribution]. Every chart's JSON is in the <code>specs</code> folder and its data in <code>data</code>.</p>
+</div></footer>
+
+<script>
+const charts={c01:'c01_choropleth',c02:'c02_symbol_map',c03:'c03_tile_grid',c08:'c08_butterfly',c09:'c09_who_goes',c10:'c10_waffle',c11:'c11_sydney_map',c12:'c12_streamgraph',c13:'c13_dumbbell_covid',c14:'c14_radial_age',c15:'c15_treemap_venues',c16:'c16_boxplot_institution',c17:'c17_slope_rank'};
+document.fonts.ready.then(()=>{
+  for(const [id,f] of Object.entries(charts)){
+    vegaEmbed('#'+id,'specs/'+f+'.json',{actions:false,renderer:'svg'}).catch(e=>{document.getElementById(id).textContent='Chart could not load: '+e.message;});
+  }
+});
+</script>
+</body>
+</html>
