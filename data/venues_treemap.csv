@@ -1,0 +1,9 @@
+venue,x0,y0,x1,y1,is_museum,rate
+Cinemas,0,0,140.6,240,0,43.9
+Libraries or archives,140.6,0,264.2,126.8,0,20.4
+Art galleries,140.6,126.8,264.2,240.0,0,18.2
+Live music concerts or performances,264.2,0,353.1,152.1,0,17.6
+Museums,353.1,0,440.0,152.1,1,17.2
+Theatre performances,264.2,152.1,334.2,240.0,0,8.0
+Musicals or operas,334.2,152.1,395.4,240.0,0,7.0
+Dance performances,395.4,152.1,440.0,240.0,0,5.1
