@@ -1,0 +1,107 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 420,
+  "height": 420,
+  "title": {
+    "text": "Most visitors come once a year",
+    "subtitle": "If 100 museum-goers were squares: how many times each visited in 12 months"
+  },
+  "data": {
+    "url": "data/frequency.csv"
+  },
+  "mark": {
+    "type": "square",
+    "size": 1300,
+    "opacity": 1
+  },
+  "encoding": {
+    "x": {
+      "field": "x",
+      "type": "ordinal",
+      "axis": null,
+      "scale": {
+        "paddingInner": 0.12
+      }
+    },
+    "y": {
+      "field": "y",
+      "type": "ordinal",
+      "axis": null,
+      "scale": {
+        "paddingInner": 0.12
+      }
+    },
+    "color": {
+      "field": "times",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Once",
+          "Twice",
+          "3 times",
+          "4 times",
+          "5 times",
+          "6 or more"
+        ],
+        "range": [
+          "#C9862B",
+          "#14524B",
+          "#2A7F74",
+          "#5FA89C",
+          "#9CCBC2",
+          "#D6E8E3"
+        ]
+      },
+      "legend": {
+        "title": "Visits in a year",
+        "orient": "right"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "times",
+        "title": "Visited"
+      }
+    ]
+  }
+}

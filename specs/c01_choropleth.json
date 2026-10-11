@@ -1,0 +1,877 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 900,
+  "height": 620,
+  "projection": {
+    "type": "albers",
+    "rotate": [
+      -132,
+      0,
+      0
+    ],
+    "center": [
+      0,
+      -27
+    ],
+    "parallels": [
+      -18,
+      -36
+    ],
+    "scale": 945
+  },
+  "title": {
+    "text": "Where Australia goes out culturally",
+    "subtitle": "Share of people aged 15+ who attended each venue type, 2021–22"
+  },
+  "params": [
+    {
+      "name": "VenueSelect",
+      "value": "museum_rate",
+      "bind": {
+        "input": "select",
+        "options": [
+          "museum_rate",
+          "gallery_rate",
+          "library_rate",
+          "cinema_rate"
+        ],
+        "labels": [
+          "Museums",
+          "Art galleries",
+          "Libraries/archives",
+          "Cinemas"
+        ],
+        "name": "Show attendance for: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "graticule": {
+          "step": [
+            10,
+            10
+          ]
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#DDE1DB",
+        "strokeWidth": 0.6
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "states"
+        }
+      },
+      "transform": [
+        {
+          "calculate": "'Data not available for ' + datum.properties.STATE_NAME",
+          "as": "note"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#E4E8E2",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "tooltip": {
+          "field": "note"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "states"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {
+              "url": "data/states.csv"
+            },
+            "key": "name",
+            "fields": [
+              "museum_rate",
+              "gallery_rate",
+              "library_rate",
+              "cinema_rate",
+              "state",
+              "museum_k"
+            ]
+          }
+        },
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "Selected Rate"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "color": {
+          "field": "Selected Rate",
+          "type": "quantitative",
+          "scale": {
+            "range": [
+              "#DCEBE7",
+              "#14524B"
+            ]
+          },
+          "legend": {
+            "title": "Attendance rate (%)",
+            "orient": "bottom-left",
+            "direction": "horizontal",
+            "gradientLength": 225
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "title": "State"
+          },
+          {
+            "field": "Selected Rate",
+            "title": "Attendance rate (%)"
+          },
+          {
+            "field": "museum_k",
+            "title": "Museum visitors ('000)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.state != 'ACT' && datum.state != 'TAS'"
+        },
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "Selected Rate"
+        },
+        {
+          "calculate": "datum.state + ' ' + format(datum['Selected Rate'], '.1f') + '%'",
+          "as": "dynamic_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "dynamic_label"
+        },
+        "color": {
+          "condition": {
+            "test": "luminance(scale('color', datum['Selected Rate'])) < 0.45",
+            "value": "#fff"
+          },
+          "value": "#16262B"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.state == 'TAS'"
+        },
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "Selected Rate"
+        },
+        {
+          "calculate": "datum.state + ' ' + format(datum['Selected Rate'], '.1f') + '%'",
+          "as": "dynamic_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "fontWeight": 600,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 24
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "dynamic_label"
+        },
+        "color": {
+          "value": "#16262B"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.state == 'ACT'"
+        },
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "Selected Rate"
+        },
+        {
+          "calculate": "['Canberra (ACT)', format(datum['Selected Rate'], '.1f') + '%']",
+          "as": "dynamic_label"
+        },
+        {
+          "calculate": "154.3",
+          "as": "alon"
+        },
+        {
+          "calculate": "-36.2",
+          "as": "alat"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "fontWeight": 600,
+        "align": "left",
+        "baseline": "middle",
+        "lineHeight": 15
+      },
+      "encoding": {
+        "longitude": {
+          "field": "alon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "alat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "dynamic_label"
+        },
+        "color": {
+          "value": "#16262B"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.state == 'NSW'"
+        },
+        {
+          "calculate": "['Gap between the highest and','lowest state: ' + format(datum.hi - datum.lo, '.1f') + ' percentage points']",
+          "as": "gap"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "fontSize": 14,
+        "fontWeight": 600,
+        "color": "#16262B",
+        "lineHeight": 18,
+        "x": 880,
+        "y": 40
+      },
+      "encoding": {
+        "text": {
+          "field": "gap"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.r == datum.hi || datum.r == datum.lo"
+        },
+        {
+          "filter": "datum.state != 'ACT' && datum.state != 'TAS'"
+        },
+        {
+          "calculate": "datum.r == datum.hi ? '▲ Highest' : '▼ Lowest'",
+          "as": "tag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "dy": -24,
+        "color": "#F3F4F0",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 4,
+        "strokeJoin": "round"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "tag"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.r == datum.hi || datum.r == datum.lo"
+        },
+        {
+          "filter": "datum.state == 'TAS'"
+        },
+        {
+          "calculate": "datum.r == datum.hi ? '▲ Highest' : '▼ Lowest'",
+          "as": "tag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 24,
+        "dy": -18,
+        "color": "#F3F4F0",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 4,
+        "strokeJoin": "round"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "tag"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.r == datum.hi || datum.r == datum.lo"
+        },
+        {
+          "filter": "datum.state == 'ACT'"
+        },
+        {
+          "calculate": "datum.r == datum.hi ? '▲ Highest' : '▼ Lowest'",
+          "as": "tag"
+        },
+        {
+          "calculate": "154.3",
+          "as": "alon"
+        },
+        {
+          "calculate": "-36.2",
+          "as": "alat"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "align": "left",
+        "baseline": "middle",
+        "dy": -27,
+        "color": "#F3F4F0",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 4,
+        "strokeJoin": "round"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "alon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "alat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "tag"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.r == datum.hi || datum.r == datum.lo"
+        },
+        {
+          "filter": "datum.state != 'ACT' && datum.state != 'TAS'"
+        },
+        {
+          "calculate": "datum.r == datum.hi ? '▲ Highest' : '▼ Lowest'",
+          "as": "tag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "dy": -24,
+        "color": "#7A3E0B"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "tag"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.r == datum.hi || datum.r == datum.lo"
+        },
+        {
+          "filter": "datum.state == 'TAS'"
+        },
+        {
+          "calculate": "datum.r == datum.hi ? '▲ Highest' : '▼ Lowest'",
+          "as": "tag"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 24,
+        "dy": -18,
+        "color": "#7A3E0B"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "tag"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum[VenueSelect]",
+          "as": "r"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "r",
+              "as": "hi"
+            },
+            {
+              "op": "min",
+              "field": "r",
+              "as": "lo"
+            }
+          ]
+        },
+        {
+          "filter": "datum.r == datum.hi || datum.r == datum.lo"
+        },
+        {
+          "filter": "datum.state == 'ACT'"
+        },
+        {
+          "calculate": "datum.r == datum.hi ? '▲ Highest' : '▼ Lowest'",
+          "as": "tag"
+        },
+        {
+          "calculate": "154.3",
+          "as": "alon"
+        },
+        {
+          "calculate": "-36.2",
+          "as": "alat"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "align": "left",
+        "baseline": "middle",
+        "dy": -27,
+        "color": "#7A3E0B"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "alon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "alat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "tag"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.state == 'ACT'"
+        },
+        {
+          "calculate": "149.95",
+          "as": "slon"
+        },
+        {
+          "calculate": "-35.6",
+          "as": "slat"
+        },
+        {
+          "calculate": "153.8",
+          "as": "elon"
+        },
+        {
+          "calculate": "-36.2",
+          "as": "elat"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "stroke": "#16262B",
+        "strokeWidth": 1,
+        "strokeDash": [
+          3,
+          3
+        ],
+        "opacity": 0.7
+      },
+      "encoding": {
+        "longitude": {
+          "field": "slon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "slat",
+          "type": "quantitative"
+        },
+        "longitude2": {
+          "field": "elon"
+        },
+        "latitude2": {
+          "field": "elat"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.state == 'ACT'"
+        },
+        {
+          "calculate": "149.05",
+          "as": "slon"
+        },
+        {
+          "calculate": "-35.5",
+          "as": "slat"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "shape": "circle",
+        "size": 520,
+        "filled": false,
+        "stroke": "#C9862B",
+        "strokeWidth": 3
+      },
+      "encoding": {
+        "longitude": {
+          "field": "slon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "slat",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.state == 'ACT'"
+        },
+        {
+          "calculate": "149.05",
+          "as": "slon"
+        },
+        {
+          "calculate": "-35.5",
+          "as": "slat"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "shape": "circle",
+        "size": 520,
+        "filled": false,
+        "stroke": "#7A3E0B",
+        "strokeWidth": 1,
+        "strokeDash": [
+          2,
+          2
+        ]
+      },
+      "encoding": {
+        "longitude": {
+          "field": "slon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "slat",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

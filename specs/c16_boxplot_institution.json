@@ -1,0 +1,104 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 700,
+  "height": 420,
+  "title": {
+    "text": "Which institutions swing the most?",
+    "subtitle": [
+      "Spread of annual visits per NSW institution, 2018–2019 to 2023–2024 (millions) — shown instead of",
+      "exhibition run-lengths, which aren't in the data"
+    ]
+  },
+  "data": {
+    "url": "data/nsw_visits.csv"
+  },
+  "mark": {
+    "type": "boxplot",
+    "size": 38,
+    "color": "#14524B",
+    "outliers": {
+      "color": "#C9862B"
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "institution",
+      "type": "nominal",
+      "sort": [
+        "Sydney Opera House",
+        "Art Gallery of NSW",
+        "Australian Museum",
+        "State Library of NSW",
+        "Powerhouse Museum",
+        "Museums of History NSW"
+      ],
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12
+      }
+    },
+    "x": {
+      "field": "visits_m",
+      "type": "quantitative",
+      "title": "Visits (millions), one point per year",
+      "axis": {
+        "values": [
+          0,
+          0.2,
+          0.4,
+          0.6,
+          0.8,
+          1.0,
+          1.2,
+          1.4,
+          1.6,
+          1.8,
+          2.0,
+          2.2
+        ]
+      }
+    }
+  }
+}

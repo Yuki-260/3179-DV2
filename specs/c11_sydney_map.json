@@ -1,0 +1,495 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null,
+      "fill": "#DCE8EA"
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 868,
+  "height": 560,
+  "padding": {
+    "top": 10,
+    "left": 5,
+    "right": 5,
+    "bottom": 5
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [
+      151.208,
+      -33.8677
+    ],
+    "scale": 910000
+  },
+  "title": {
+    "text": "Six of Sydney's cultural landmarks within about three kilometres",
+    "subtitle": "Drag the slider to step through the years. Circle size: visits that year. Colour: visits relative to 2018–19 (=100). Blue-grey: water"
+  },
+  "params": [
+    {
+      "name": "YearStart",
+      "value": 2023,
+      "bind": {
+        "input": "range",
+        "min": 2018,
+        "max": 2023,
+        "step": 1,
+        "name": "Financial year starting July: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "data/states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "sydney_land"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#F4F4EE",
+        "stroke": "#A9BCC0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "sydney_roads"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "filled": false,
+        "stroke": "#C4CBC4",
+        "strokeCap": "round",
+        "strokeJoin": "round",
+        "opacity": 0.9
+      },
+      "encoding": {
+        "strokeWidth": {
+          "field": "properties.highway",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "motorway",
+              "trunk",
+              "primary",
+              "secondary"
+            ],
+            "range": [
+              2,
+              1.6,
+              1.2,
+              0.8
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "data": {
+        "graticule": {
+          "step": [
+            0.01,
+            0.01
+          ],
+          "extentMajor": [
+            [
+              151.17,
+              -33.9
+            ],
+            [
+              151.24,
+              -33.84
+            ]
+          ],
+          "extentMinor": [
+            [
+              151.17,
+              -33.9
+            ],
+            [
+              151.24,
+              -33.84
+            ]
+          ]
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#C9D3D2",
+        "strokeWidth": 1,
+        "strokeDash": [
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "t": "Sydney Harbour",
+            "lon": 151.2305,
+            "lat": -33.8585
+          },
+          {
+            "t": "Darling Harbour",
+            "lon": 151.1906,
+            "lat": -33.8607
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Fraunces",
+        "fontStyle": "italic",
+        "fontSize": 15,
+        "color": "#7E98A0"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "t": "Circular Quay",
+            "lon": 151.2105,
+            "lat": -33.86
+          },
+          {
+            "t": "The Domain",
+            "lon": 151.217,
+            "lat": -33.8715
+          },
+          {
+            "t": "Pyrmont",
+            "lon": 151.195,
+            "lat": -33.87
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Public Sans",
+        "fontSize": 11,
+        "fontWeight": 500,
+        "color": "#F4F4EE",
+        "opacity": 1,
+        "limit": 120,
+        "stroke": "#F4F4EE",
+        "strokeWidth": 4,
+        "strokeOpacity": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "t": "Circular Quay",
+            "lon": 151.2105,
+            "lat": -33.86
+          },
+          {
+            "t": "The Domain",
+            "lon": 151.217,
+            "lat": -33.8715
+          },
+          {
+            "t": "Pyrmont",
+            "lon": 151.195,
+            "lat": -33.87
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Public Sans",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#6F7F7C",
+        "opacity": 1,
+        "limit": 120
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/nsw_visits.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "visits_m": "number",
+            "index": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.year == (YearStart + '-' + (YearStart + 1 - 2000))"
+        },
+        {
+          "lookup": "institution",
+          "from": {
+            "data": {
+              "url": "data/sydney.csv"
+            },
+            "key": "institution",
+            "fields": [
+              "lon",
+              "lat"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.88,
+        "stroke": "#fff",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "visits_m",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              2.1
+            ],
+            "range": [
+              0,
+              5400
+            ]
+          },
+          "legend": {
+            "title": "Visits (millions)",
+            "orient": "bottom-left",
+            "values": [
+              0.5,
+              1,
+              2
+            ],
+            "symbolFillColor": "#8A9694",
+            "symbolStrokeColor": "#fff"
+          }
+        },
+        "color": {
+          "field": "index",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              100,
+              380
+            ],
+            "range": [
+              "#C9862B",
+              "#EDEDE6",
+              "#14524B"
+            ],
+            "clamp": true
+          },
+          "legend": {
+            "title": "Visits vs 2018–19 (=100)",
+            "orient": "bottom-right",
+            "direction": "horizontal",
+            "gradientLength": 168,
+            "titleLimit": 420,
+            "values": [
+              0,
+              100,
+              200,
+              300
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "institution",
+            "title": "Institution"
+          },
+          {
+            "field": "year",
+            "title": "Year"
+          },
+          {
+            "field": "visits_m",
+            "title": "Visits (millions)"
+          },
+          {
+            "field": "index",
+            "title": "Index (2018–19 = 100)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/nsw_visits.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.year == (YearStart + '-' + (YearStart + 1 - 2000))"
+        },
+        {
+          "lookup": "institution",
+          "from": {
+            "data": {
+              "url": "data/sydney.csv"
+            },
+            "key": "institution",
+            "fields": [
+              "lon",
+              "lat"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 44,
+        "fontSize": 14,
+        "fontWeight": 600,
+        "color": "#16262B"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "institution"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "k": 1
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "'FY ' + YearStart + '–' + (YearStart + 1 - 2000)",
+          "as": "label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "fontSize": 38,
+        "fontWeight": 700,
+        "color": "#AEB9B8",
+        "font": "Fraunces",
+        "x": 858,
+        "y": 6
+      },
+      "encoding": {
+        "text": {
+          "field": "label"
+        }
+      }
+    }
+  ],
+  "view": {
+    "stroke": null,
+    "fill": "#DCE8EA"
+  }
+}

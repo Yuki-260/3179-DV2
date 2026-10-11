@@ -1,0 +1,161 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 680,
+  "height": 420,
+  "title": {
+    "text": "Pre-pandemic versus today",
+    "subtitle": "Visits in 2018–2019 compared with 2023–2024, NSW state institutions (millions)"
+  },
+  "data": {
+    "url": "data/nsw_visits.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.year=='2018-19' || datum.year=='2023-24'"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "institution",
+      "type": "nominal",
+      "sort": {
+        "field": "visits_m",
+        "op": "max",
+        "order": "descending"
+      },
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12
+      }
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "pivot": "year",
+          "value": "visits_m",
+          "groupby": [
+            "institution"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 4,
+        "color": "#B9C0BB"
+      },
+      "encoding": {
+        "x": {
+          "field": "2018-19",
+          "type": "quantitative",
+          "title": "Visits (millions)",
+          "axis": {
+            "values": [
+              0,
+              0.2,
+              0.4,
+              0.6,
+              0.8,
+              1.0,
+              1.2,
+              1.4,
+              1.6,
+              1.8,
+              2.0,
+              2.2
+            ]
+          }
+        },
+        "x2": {
+          "field": "2023-24"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 280,
+        "opacity": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "visits_m",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "year",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "2018-19",
+              "2023-24"
+            ],
+            "range": [
+              "#8A9694",
+              "#C9862B"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "orient": "top"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "institution"
+          },
+          {
+            "field": "year"
+          },
+          {
+            "field": "visits_m",
+            "title": "Visits (millions)"
+          }
+        ]
+      }
+    }
+  ]
+}

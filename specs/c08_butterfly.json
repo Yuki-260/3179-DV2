@@ -1,0 +1,128 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 680,
+  "height": 440,
+  "title": {
+    "text": "Parents' years: museum visits peak at 35–44",
+    "subtitle": "Museum visitors aged 15+ by age and sex, thousands of people, 2021–2022"
+  },
+  "data": {
+    "url": "data/age_sex.csv"
+  },
+  "mark": {
+    "type": "bar",
+    "stroke": "#F3F4F0",
+    "strokeWidth": 1
+  },
+  "encoding": {
+    "y": {
+      "field": "age",
+      "type": "ordinal",
+      "sort": [
+        "15–17",
+        "18–24",
+        "25–34",
+        "35–44",
+        "45–54",
+        "55–64",
+        "65–74",
+        "75+"
+      ],
+      "title": "Age group",
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelPadding": 6
+      }
+    },
+    "x": {
+      "field": "signed",
+      "type": "quantitative",
+      "title": "Thousands of people",
+      "axis": {
+        "labelExpr": "abs(datum.value)",
+        "format": "d"
+      },
+      "scale": {
+        "domain": [
+          -520,
+          520
+        ]
+      }
+    },
+    "color": {
+      "field": "sex",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Men",
+          "Women"
+        ],
+        "range": [
+          "#C9862B",
+          "#14524B"
+        ]
+      },
+      "legend": {
+        "title": null,
+        "orient": "top"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "age"
+      },
+      {
+        "field": "sex"
+      },
+      {
+        "field": "thousands",
+        "title": "People ('000)"
+      },
+      {
+        "field": "persons_k",
+        "title": "ABS total for this age group ('000)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 520,
+  "height": 520,
+  "title": {
+    "text": "A life-stage pattern, not a seasonal one",
+    "subtitle": [
+      "Museum attendance rate by age group, 2021–2022 (%). Shown as a radial chart since",
+      "no monthly/seasonal data exists in the source."
+    ]
+  },
+  "data": {
+    "url": "data/age_rate.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "arc",
+        "innerRadius": 50,
+        "stroke": "#F3F4F0",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "theta": {
+          "field": "rate",
+          "type": "quantitative",
+          "stack": true
+        },
+        "radius": {
+          "field": "rate",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "zero": true,
+            "rangeMin": 50
+          }
+        },
+        "color": {
+          "field": "age",
+          "type": "nominal",
+          "sort": [
+            "15–17",
+            "18–24",
+            "25–34",
+            "35–44",
+            "45–54",
+            "55–64",
+            "65–74",
+            "75+"
+          ],
+          "scale": {
+            "scheme": "teals"
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "age"
+          },
+          {
+            "field": "rate",
+            "title": "Attendance rate (%)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "radiusOffset": 26,
+        "fontSize": 13.5,
+        "fontWeight": 600,
+        "color": "#16262B"
+      },
+      "encoding": {
+        "theta": {
+          "field": "rate",
+          "type": "quantitative",
+          "stack": true
+        },
+        "radius": {
+          "field": "rate",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "zero": true,
+            "rangeMin": 50
+          }
+        },
+        "text": {
+          "field": "age"
+        }
+      }
+    }
+  ]
+}

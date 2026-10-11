@@ -1,0 +1,144 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 11.5,
+      "subtitlePadding": 4,
+      "offset": 12
+    }
+  },
+  "width": 420,
+  "height": 230,
+  "title": {
+    "text": "Museums sit mid-table among cultural outings",
+    "subtitle": "Share of Australians aged 15+ who attended each type of venue or event, 2021–2022"
+  },
+  "data": {
+    "url": "data/venues.csv"
+  },
+  "encoding": {
+    "y": {
+      "field": "venue",
+      "type": "nominal",
+      "sort": "-x",
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x": {
+          "datum": 0
+        },
+        "x2": {
+          "field": "rate"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.is_museum==1",
+            "value": "#C9862B"
+          },
+          "value": "#B9C0BB"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 130,
+        "opacity": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "rate",
+          "type": "quantitative",
+          "title": "% of people attending",
+          "scale": {
+            "domain": [
+              0,
+              50
+            ]
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.is_museum==1",
+            "value": "#C9862B"
+          },
+          "value": "#8A9694"
+        },
+        "tooltip": [
+          {
+            "field": "venue"
+          },
+          {
+            "field": "rate",
+            "title": "%"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dx": 12,
+        "align": "left",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#16262B"
+      },
+      "encoding": {
+        "x": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "rate",
+          "format": ".1f"
+        }
+      }
+    }
+  ]
+}

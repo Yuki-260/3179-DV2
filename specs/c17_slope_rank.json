@@ -1,0 +1,171 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 520,
+  "height": 460,
+  "title": {
+    "text": "Who moved up, who moved down",
+    "subtitle": "Attendance rank among the 6 NSW institutions, 2018–2019 vs 2023–2024 (1 = most visited)"
+  },
+  "data": {
+    "url": "data/nsw_visits.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.year=='2018-19' || datum.year=='2023-24'"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "visits_m",
+          "order": "descending"
+        }
+      ],
+      "groupby": [
+        "year"
+      ]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "sort": [
+        "2018-2019",
+        "2023-2024"
+      ],
+      "title": null,
+      "scale": {
+        "padding": 0.4
+      },
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "rank",
+      "type": "ordinal",
+      "sort": "ascending",
+      "title": "Rank (1 = most visited)"
+    },
+    "color": {
+      "field": "institution",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Sydney Opera House",
+          "Art Gallery of NSW",
+          "Australian Museum",
+          "State Library of NSW",
+          "Museums of History NSW",
+          "Powerhouse Museum"
+        ],
+        "range": [
+          "#B9C0BB",
+          "#B9C0BB",
+          "#14524B",
+          "#B9C0BB",
+          "#B9C0BB",
+          "#C9862B"
+        ]
+      },
+      "legend": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3.5,
+        "point": {
+          "filled": true,
+          "size": 110
+        }
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "institution"
+          },
+          {
+            "field": "year"
+          },
+          {
+            "field": "rank"
+          },
+          {
+            "field": "visits_m",
+            "title": "Visits (millions)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year=='2023-24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 12,
+        "fontSize": 13.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "institution"
+        },
+        "color": {
+          "value": "#16262B"
+        }
+      }
+    }
+  ]
+}

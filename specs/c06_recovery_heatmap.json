@@ -1,0 +1,152 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 640,
+  "height": 380,
+  "title": {
+    "text": "Who has bounced back?",
+    "subtitle": "Colour: visits compared with 2018–2019 (100 = same as before). Numbers: millions of visits"
+  },
+  "data": {
+    "url": "data/nsw_visits.csv"
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": null,
+      "axis": {
+        "orient": "top",
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "institution",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "Australian Museum",
+        "Art Gallery of NSW",
+        "Museums of History NSW",
+        "State Library of NSW",
+        "Sydney Opera House",
+        "Powerhouse Museum"
+      ],
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "index",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              100,
+              380
+            ],
+            "range": [
+              "#C9862B",
+              "#F1F1EC",
+              "#14524B"
+            ]
+          },
+          "legend": {
+            "title": "% of 2018–19",
+            "values": [
+              0,
+              100,
+              200,
+              300
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "institution"
+          },
+          {
+            "field": "year"
+          },
+          {
+            "field": "visits_m",
+            "title": "Visits (millions)"
+          },
+          {
+            "field": "index",
+            "title": "% of 2018–19"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 14
+      },
+      "encoding": {
+        "text": {
+          "field": "visits_m",
+          "format": ".1f"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.index>220 || datum.index<40",
+            "value": "#fff"
+          },
+          "value": "#16262B"
+        }
+      }
+    }
+  ]
+}

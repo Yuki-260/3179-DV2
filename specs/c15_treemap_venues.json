@@ -1,0 +1,199 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 704,
+  "height": 384,
+  "title": {
+    "text": "Museums' share of a crowded field",
+    "subtitle": [
+      "Treemap sized by national attendance rate, 2021–2022 — cultural venues/events, not museum collections",
+      "(no collection-size data available)"
+    ]
+  },
+  "data": {
+    "url": "data/venues_treemap.csv",
+    "format": {
+      "parse": {
+        "x0": "number",
+        "y0": "number",
+        "x1": "number",
+        "y1": "number",
+        "is_museum": "number",
+        "rate": "number"
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "#F3F4F0",
+        "strokeWidth": 3,
+        "cornerRadius": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "x0",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              440
+            ]
+          },
+          "axis": null
+        },
+        "x2": {
+          "field": "x1"
+        },
+        "y": {
+          "field": "y0",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              240
+            ]
+          },
+          "axis": null
+        },
+        "y2": {
+          "field": "y1"
+        },
+        "color": {
+          "field": "is_museum",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              "#8A9694",
+              "#C9862B"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "venue"
+          },
+          {
+            "field": "rate",
+            "title": "Attendance rate (%)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "(datum.x0+datum.x1)/2",
+          "as": "cx"
+        },
+        {
+          "calculate": "(datum.y0+datum.y1)/2-6",
+          "as": "cy"
+        },
+        {
+          "calculate": "{'Libraries or archives':'Libraries','Live music concerts or performances':'Live music','Theatre performances':'Theatre','Musicals or operas':'Musicals','Dance performances':'Dance'}[datum.venue] || datum.venue",
+          "as": "short_name"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 15,
+        "fontWeight": 600,
+        "color": "#fff"
+      },
+      "encoding": {
+        "x": {
+          "field": "cx",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "cy",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "short_name"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "(datum.x0+datum.x1)/2",
+          "as": "cx"
+        },
+        {
+          "calculate": "(datum.y0+datum.y1)/2+10",
+          "as": "cy"
+        },
+        {
+          "calculate": "format(datum.rate, '.1f') + '%'",
+          "as": "rate_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 13.5,
+        "color": "#fff",
+        "opacity": 0.85
+      },
+      "encoding": {
+        "x": {
+          "field": "cx",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "cy",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "rate_label"
+        }
+      }
+    }
+  ]
+}

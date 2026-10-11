@@ -1,0 +1,213 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 11.5,
+      "subtitlePadding": 4,
+      "offset": 12
+    }
+  },
+  "width": 470,
+  "height": 330,
+  "padding": {
+    "left": 5,
+    "right": 140,
+    "top": 5,
+    "bottom": 5
+  },
+  "title": {
+    "text": "Sydney's museums after the pandemic dip",
+    "subtitle": "In-person visits to NSW state cultural institutions, millions per year"
+  },
+  "data": {
+    "url": "data/nsw_visits.csv"
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": null,
+      "scale": {
+        "padding": 0.3
+      }
+    },
+    "y": {
+      "field": "visits_m",
+      "type": "quantitative",
+      "title": "Visits (millions)",
+      "scale": {
+        "domain": [
+          0,
+          2.4
+        ]
+      }
+    },
+    "color": {
+      "field": "institution",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Sydney Opera House",
+          "Art Gallery of NSW",
+          "Australian Museum",
+          "State Library of NSW",
+          "Museums of History NSW",
+          "Powerhouse Museum"
+        ],
+        "range": [
+          "#B9C0BB",
+          "#B9C0BB",
+          "#14524B",
+          "#B9C0BB",
+          "#B9C0BB",
+          "#C9862B"
+        ]
+      },
+      "legend": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.5,
+        "point": {
+          "filled": true,
+          "size": 40
+        }
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "institution"
+          },
+          {
+            "field": "year"
+          },
+          {
+            "field": "visits_m",
+            "title": "Visits (millions)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year=='2023-24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "fontSize": 11.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "institution"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": "2020-21",
+            "y": 2.3,
+            "t": "COVID-19 restrictions"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#5b6a6c"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        },
+        "color": {
+          "value": "#5b6a6c"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": "2022-23",
+            "y": 0.08,
+            "t": "Powerhouse Ultimo closed Feb 2024 for heritage works"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "align": "left"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        },
+        "color": {
+          "value": "#C9862B"
+        }
+      }
+    }
+  ]
+}

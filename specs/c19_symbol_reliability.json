@@ -1,0 +1,68 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {"stroke": null},
+    "axis": {"labelFont": "Public Sans", "titleFont": "Public Sans", "labelColor": "#3b4a4d", "titleColor": "#3b4a4d", "domainColor": "#b9c0bb", "tickColor": "#b9c0bb", "gridColor": "#e3e6e1", "labelFontSize": 12.5, "titleFontSize": 12.5, "titleFontWeight": 600},
+    "legend": {"labelFont": "Public Sans", "titleFont": "Public Sans", "labelFontSize": 12.5, "titleFontSize": 12.5, "titleFontWeight": 600, "labelColor": "#3b4a4d", "titleColor": "#3b4a4d"},
+    "title": {"font": "Fraunces", "fontSize": 19, "fontWeight": 600, "anchor": "start", "color": "#16262B", "subtitleFont": "Public Sans", "subtitleColor": "#5b6a6c", "subtitleFontSize": 13, "subtitlePadding": 6, "offset": 12}
+  },
+  "width": 860,
+  "height": 620,
+  "projection": {"type": "albers", "rotate": [-132, 0, 0], "center": [0, -27], "parallels": [-18, -36], "scale": 900},
+  "title": {
+    "text": "How solid are these state numbers?",
+    "subtitle": "Circle size: museum visitors per 1,000 residents. Colour: survey margin of error (RSE %), where lighter means more reliable"
+  },
+  "layer": [
+    {
+      "data": {"url": "data/states.topojson", "format": {"type": "topojson", "feature": "states"}},
+      "mark": {"type": "geoshape", "fill": "#E4E8E2", "stroke": "#fff", "strokeWidth": 1}
+    },
+    {
+      "data": {"url": "data/states.csv"},
+      "mark": {"type": "circle", "opacity": 0.9, "stroke": "#fff", "strokeWidth": 1.2},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "museum_per_1000", "type": "quantitative",
+          "scale": {"domain": [100, 230], "range": [100, 3200]},
+          "legend": {"title": "Per 1,000 residents", "orient": "right", "direction": "vertical", "values": [100, 150, 200], "symbolFillColor": "#8A9694", "symbolStrokeColor": "#fff"}
+        },
+        "color": {
+          "field": "museum_rse", "type": "quantitative",
+          "scale": {"domain": [2, 7], "range": ["#DCEBE7", "#8A4B12"]},
+          "legend": {"title": "Survey RSE (%)", "orient": "right", "direction": "vertical", "gradientLength": 120}
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "museum_per_1000", "title": "Per 1,000 residents"},
+          {"field": "museum_rse", "title": "Survey RSE (%)"},
+          {"field": "reliability", "title": "ABS reliability flag"}
+        ]
+      }
+    },
+    {
+      "data": {"url": "data/states.csv"},
+      "transform": [{"filter": "datum.state != 'ACT'"}],
+      "mark": {"type": "text", "fontSize": 10.5, "fontWeight": 600, "color": "#16262B"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "state"}
+      }
+    },
+    {
+    "data": {"url": "data/states.csv"},
+      "transform": [{"filter": "datum.state == 'ACT'"}],
+      "mark": {"type": "text", "align": "left", "dx": 42, "fontSize": 10.5, "fontWeight": 600, "color": "#16262B"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "state"}
+      }
+    }
+  ]
+}

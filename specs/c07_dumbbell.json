@@ -1,0 +1,144 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 11.5,
+      "subtitlePadding": 4,
+      "offset": 12
+    }
+  },
+  "width": 420,
+  "height": 270,
+  "title": {
+    "text": "Where museum-goers live versus where Australians live",
+    "subtitle": "Each state's share of the national population (2022) and of national museum visitors (2021–2022)"
+  },
+  "data": {
+    "url": "data/states.csv"
+  },
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": {
+        "field": "pop_share",
+        "order": "descending"
+      },
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 3,
+        "color": "#B9C0BB"
+      },
+      "encoding": {
+        "x": {
+          "field": "pop_share",
+          "type": "quantitative"
+        },
+        "x2": {
+          "field": "museum_share"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "fold": [
+            "pop_share",
+            "museum_share"
+          ],
+          "as": [
+            "measure",
+            "pct"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 110,
+        "opacity": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "pct",
+          "type": "quantitative",
+          "title": "Share of Australia (%)"
+        },
+        "color": {
+          "field": "measure",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "pop_share",
+              "museum_share"
+            ],
+            "range": [
+              "#8A9694",
+              "#C9862B"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "orient": "top",
+            "labelExpr": "datum.value=='pop_share' ? 'Share of population' : 'Share of museum visitors'"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state"
+          },
+          {
+            "field": "pop_share",
+            "title": "Population share (%)"
+          },
+          {
+            "field": "museum_share",
+            "title": "Museum visitor share (%)"
+          }
+        ]
+      }
+    }
+  ]
+}

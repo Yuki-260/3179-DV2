@@ -1,0 +1,543 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Public Sans",
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d",
+      "domainColor": "#b9c0bb",
+      "tickColor": "#b9c0bb",
+      "gridColor": "#e3e6e1",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600
+    },
+    "legend": {
+      "labelFont": "Public Sans",
+      "titleFont": "Public Sans",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#3b4a4d",
+      "titleColor": "#3b4a4d"
+    },
+    "title": {
+      "font": "Fraunces",
+      "fontSize": 19,
+      "fontWeight": 600,
+      "anchor": "start",
+      "color": "#16262B",
+      "subtitleFont": "Public Sans",
+      "subtitleColor": "#5b6a6c",
+      "subtitleFontSize": 13,
+      "subtitlePadding": 6,
+      "offset": 12
+    }
+  },
+  "width": 860,
+  "height": 660,
+  "projection": {
+    "type": "albers",
+    "rotate": [
+      -132,
+      0,
+      0
+    ],
+    "center": [
+      0,
+      -27
+    ],
+    "parallels": [
+      -18,
+      -36
+    ],
+    "scale": 945
+  },
+  "title": {
+    "text": "Size is not reach: Australia redrawn by population",
+    "subtitle": "Each circle's area is proportional to the population aged 15+. Colour: share who visited a museum in 2021–22. The faint outline shows where the states really are"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/states.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "states"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#E9ECE6",
+        "stroke": "#fff",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "state": "NSW",
+            "x": 664.0,
+            "y": 383.8
+          },
+          {
+            "state": "VIC",
+            "x": 560.2,
+            "y": 516.2
+          },
+          {
+            "state": "QLD",
+            "x": 613.9,
+            "y": 232.1
+          },
+          {
+            "state": "SA",
+            "x": 483.2,
+            "y": 362.9
+          },
+          {
+            "state": "WA",
+            "x": 287.0,
+            "y": 287.6
+          },
+          {
+            "state": "TAS",
+            "x": 637.4,
+            "y": 589.9
+          },
+          {
+            "state": "NT",
+            "x": 451.1,
+            "y": 183.0
+          },
+          {
+            "state": "ACT",
+            "x": 661.9,
+            "y": 495.6
+          }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/states.csv"
+            },
+            "key": "state",
+            "fields": [
+              "name",
+              "pop15_k",
+              "museum_rate",
+              "museum_k"
+            ]
+          }
+        },
+        {
+          "calculate": "1.05 * sqrt(datum.pop15_k)",
+          "as": "r"
+        },
+        {
+          "calculate": "3.14159 * datum.r * datum.r",
+          "as": "area"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "stroke": "#fff",
+        "strokeWidth": 2,
+        "opacity": 0.95
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "scale": null,
+          "axis": null
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "scale": null,
+          "axis": null
+        },
+        "size": {
+          "field": "area",
+          "type": "quantitative",
+          "scale": null,
+          "legend": null
+        },
+        "color": {
+          "field": "museum_rate",
+          "type": "quantitative",
+          "scale": {
+            "range": [
+              "#DCEBE7",
+              "#14524B"
+            ]
+          },
+          "legend": {
+            "title": "Museum attendance (%)",
+            "orient": "bottom-left",
+            "direction": "horizontal",
+            "gradientLength": 225
+          }
+        },
+        "tooltip": [
+          {
+            "field": "name",
+            "title": "State"
+          },
+          {
+            "field": "pop15_k",
+            "title": "Population 15+ ('000)",
+            "format": ",.0f"
+          },
+          {
+            "field": "museum_rate",
+            "title": "Museum attendance (%)"
+          },
+          {
+            "field": "museum_k",
+            "title": "Museum visitors ('000)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "state": "NSW",
+            "x": 664.0,
+            "y": 383.8
+          },
+          {
+            "state": "VIC",
+            "x": 560.2,
+            "y": 516.2
+          },
+          {
+            "state": "QLD",
+            "x": 613.9,
+            "y": 232.1
+          },
+          {
+            "state": "SA",
+            "x": 483.2,
+            "y": 362.9
+          },
+          {
+            "state": "WA",
+            "x": 287.0,
+            "y": 287.6
+          },
+          {
+            "state": "TAS",
+            "x": 637.4,
+            "y": 589.9
+          },
+          {
+            "state": "NT",
+            "x": 451.1,
+            "y": 183.0
+          },
+          {
+            "state": "ACT",
+            "x": 661.9,
+            "y": 495.6
+          }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/states.csv"
+            },
+            "key": "state",
+            "fields": [
+              "name",
+              "pop15_k",
+              "museum_rate",
+              "museum_k"
+            ]
+          }
+        },
+        {
+          "calculate": "1.05 * sqrt(datum.pop15_k)",
+          "as": "r"
+        },
+        {
+          "filter": "datum.pop15_k >= 1000"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 15,
+        "fontWeight": 700,
+        "dy": -8
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "state"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.museum_rate > 22",
+            "value": "#fff"
+          },
+          "value": "#16262B"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "state": "NSW",
+            "x": 664.0,
+            "y": 383.8
+          },
+          {
+            "state": "VIC",
+            "x": 560.2,
+            "y": 516.2
+          },
+          {
+            "state": "QLD",
+            "x": 613.9,
+            "y": 232.1
+          },
+          {
+            "state": "SA",
+            "x": 483.2,
+            "y": 362.9
+          },
+          {
+            "state": "WA",
+            "x": 287.0,
+            "y": 287.6
+          },
+          {
+            "state": "TAS",
+            "x": 637.4,
+            "y": 589.9
+          },
+          {
+            "state": "NT",
+            "x": 451.1,
+            "y": 183.0
+          },
+          {
+            "state": "ACT",
+            "x": 661.9,
+            "y": 495.6
+          }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/states.csv"
+            },
+            "key": "state",
+            "fields": [
+              "name",
+              "pop15_k",
+              "museum_rate",
+              "museum_k"
+            ]
+          }
+        },
+        {
+          "calculate": "1.05 * sqrt(datum.pop15_k)",
+          "as": "r"
+        },
+        {
+          "filter": "datum.pop15_k >= 1000"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "dy": 9
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "museum_rate",
+          "type": "quantitative",
+          "format": ".1f"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.museum_rate > 22",
+            "value": "#fff"
+          },
+          "value": "#16262B"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "state": "NSW",
+            "x": 664.0,
+            "y": 383.8
+          },
+          {
+            "state": "VIC",
+            "x": 560.2,
+            "y": 516.2
+          },
+          {
+            "state": "QLD",
+            "x": 613.9,
+            "y": 232.1
+          },
+          {
+            "state": "SA",
+            "x": 483.2,
+            "y": 362.9
+          },
+          {
+            "state": "WA",
+            "x": 287.0,
+            "y": 287.6
+          },
+          {
+            "state": "TAS",
+            "x": 637.4,
+            "y": 589.9
+          },
+          {
+            "state": "NT",
+            "x": 451.1,
+            "y": 183.0
+          },
+          {
+            "state": "ACT",
+            "x": 661.9,
+            "y": 495.6
+          }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/states.csv"
+            },
+            "key": "state",
+            "fields": [
+              "name",
+              "pop15_k",
+              "museum_rate",
+              "museum_k"
+            ]
+          }
+        },
+        {
+          "calculate": "1.05 * sqrt(datum.pop15_k)",
+          "as": "r"
+        },
+        {
+          "filter": "datum.pop15_k < 1000"
+        },
+        {
+          "calculate": "datum.x + datum.r + 6",
+          "as": "lx"
+        },
+        {
+          "calculate": "datum.state + '  ' + format(datum.museum_rate, '.1f') + '%'",
+          "as": "lab"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "align": "left",
+        "baseline": "middle",
+        "color": "#16262B"
+      },
+      "encoding": {
+        "x": {
+          "field": "lx",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "lab"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "k": 1
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "fontSize": 13.5,
+        "fontWeight": 600,
+        "lineHeight": 18,
+        "color": "#7A3E0B",
+        "x": 850,
+        "y": 75
+      },
+      "encoding": {
+        "text": {
+          "value": [
+            "NSW and VIC, the biggest",
+            "populations, have the lowest",
+            "museum rates; tiny NT and",
+            "ACT have the highest"
+          ]
+        }
+      }
+    }
+  ]
+}
