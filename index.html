@@ -98,7 +98,7 @@ header.hero p:last-child{animation-delay:.3s}
 </div>
 <div class="grid2">
 <figure><div class="plot" id="c16"></div><figcaption>Box plot — visit volatility. <span class="swap-note">Swapped</span> — no exhibition run-length data exists; shown instead is the spread of each institution's own annual visits. <a href="specs/c16_boxplot_institution.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c11"></div><figcaption>Proportional symbol map of the six Sydney sites — drag the slider to step through the years. A schematic locator, not a basemap. <a href="specs/c11_sydney_map.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c11"></div><figcaption>Proportional symbol map of the six Sydney sites — drag the slider to step through the years. The land and water are a simplified outline built from suburb boundaries, with major roads for orientation; they are shown for context only, not as a survey-quality coastline. <a href="specs/c11_sydney_map.json">JSON</a></figcaption></figure>
 </div>
 <p class="lede" style="margin-top:8px">Each institution counts "a visit" by its own method (noted in the data), so compare each line with its own past rather than across institutions. The Powerhouse's 2023–24 dip reflects its Ultimo site partially closing in Feb 2024 for heritage works, not a drop in interest.</p>
 </section>
@@ -136,7 +136,8 @@ header.hero p:last-child{animation-delay:.3s}
 <li>Australian Bureau of Statistics, <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population/jun-2022"><em>National, state and territory population, June 2022</em></a>, released 15 December 2022.</li>
 <li>NSW Department of Creative Industries, Tourism, Hospitality and Sport, <a href="https://data.nsw.gov.au/data/dataset/in-person-visits-to-nsw-cultural-institutions-xlsx"><em>In-person visits to NSW cultural institutions</em></a>, 2018–19 to 2023–24. Licensed under Creative Commons Attribution.</li>
 <li>State and territory boundaries: <a href="https://github.com/rowanhogan/australian-states">rowanhogan/australian-states</a> (GeoJSON), simplified and converted to TopoJSON for this page. No licence is stated in that repository.</li>
-<li>Museum locations: © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, available under the Open Database Licence (ODbL).</li>
+<li>Museum locations and Sydney major roads (motorway, trunk, primary and secondary): © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, available under the Open Database Licence (ODbL). Road tunnels were removed and the data simplified for this page.</li>
+<li>Sydney land outline (Sydney map): suburb boundaries from <a href="https://github.com/tonywr71/GeoJson-Data">tonywr71/GeoJson-Data</a> (GitHub), merged into a single land shape, smoothed and converted to TopoJSON for this page. No licence is stated in that repository.</li>
 </ul>
 </div></footer>
 
