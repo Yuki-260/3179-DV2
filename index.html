@@ -27,8 +27,8 @@ h2{font:600 clamp(1.5rem,3vw,2.1rem)/1.15 "Fraunces",Georgia,serif;margin:0 0 14
 .lede{max-width:64ch;color:var(--soft);margin:0 0 32px}
 .lede strong{color:var(--ink);font-weight:600}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-bottom:16px}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 48px;margin-bottom:16px;align-items:start}
-.one{max-width:560px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:56px;margin-bottom:56px}
+.one{max-width:none !important;margin-bottom:56px !important}
 figure{margin:0;min-width:0}
 .plot{overflow-x:auto;overflow-y:hidden}
 .plot svg{max-width:100%;height:auto}
@@ -48,12 +48,20 @@ table.plan th,table.plan td{border:1px solid var(--rule);padding:6px 10px;text-a
 table.plan th{background:#EDEFE9}
 :focus-visible{outline:3px solid var(--amb);outline-offset:2px}
 @media (max-width:900px){.grid3,.grid2{grid-template-columns:minmax(0,1fr)}.wrap{padding:0 18px}}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@keyframes heroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+header.hero h1,header.hero p{animation:heroIn .9s ease both}
+header.hero p.hook{animation-delay:.15s}
+header.hero p:last-child{animation-delay:.3s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}header.hero h1,header.hero p{animation:none}}
 </style>
 </head>
 <body>
 <header class="hero"><div class="wrap">
 <h1>Museums in Australia: preserving history, reaching today's audience</h1>
-<p class="hook">17.2% of Australians aged 15+ visited a museum in 2021–22 — and almost six in ten of them went only once.</p>
+<p class="hook">17.2% of Australians aged 15+ visited a museum in 2021–2022. Almost six in ten of them went only once.</p>
 <p>This page compares who museums reach, where, and how that's changing, using ABS survey data and six years of Sydney institution visit counts. Several panels below use a different chart idiom or a narrower date range than first planned — both are explained where they appear, since no real data exists for the original scope.</p>
 </div></header>
 
@@ -67,21 +75,30 @@ table.plan th{background:#EDEFE9}
 </div>
 <div class="grid2">
 <figure><div class="plot" id="c02"></div><figcaption>Symbol map — museum visitors by state. <a href="specs/c02_symbol_map.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c03"></div><figcaption>Tile-grid cartogram. <span class="swap-note">Swapped</span> — "domestic visitor flow" needs origin→destination travel data, which doesn't exist in any source file. Shown instead: each state's museum preference relative to art galleries. <a href="specs/c03_tile_grid.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c03"></div><figcaption>Dorling cartogram: each circle's area is proportional to the state's population aged 15+; colour is museum attendance. <span class="swap-note">Swapped</span> — "domestic visitor flow" needs origin→destination travel data, which doesn't exist in any source file. <a href="specs/c03_dorling_cartogram.json">JSON</a></figcaption></figure>
 </div>
+<div class="one" style="max-width:560px;margin-top:16px">
+<figure><div class="plot" id="c18"></div><figcaption>Dot map — 1,312 named museums across Australia (OpenStreetMap). <a href="specs/c18_dot_map.json">JSON</a></figcaption></figure>
+</div>
+<div class="one" style="max-width:none;margin-top:16px">
+<figure><div class="plot" id="c19"></div><figcaption>Proportional symbol map: circle size is museum visitors per 1,000 residents, colour is the survey's margin of error (RSE). Smaller states have less reliable estimates. <a href="specs/c19_symbol_reliability.json">JSON</a></figcaption></figure>
+</div>
+
 </section>
+
 
 <section>
 <h2>Six years at Sydney's state institutions</h2>
-<p class="lede">New South Wales publishes yearly visits for six state institutions, all in Sydney. <strong>Note:</strong> this is the full extent of the time-series data available — six NSW institutions, 2018–19 to 2023–24. There is no national series and nothing back to 2000, so the streamgraph and slope chart below are rescoped accordingly rather than showing a 2000–2024 or national picture.</p>
-<div class="one"><figure><div class="plot" id="c12"></div><figcaption>Streamgraph. <span class="swap-note">Rescoped</span> — NSW only, 6 years, not national/24-year. <a href="specs/c12_streamgraph.json">JSON</a></figcaption></figure></div>
+<p class="lede">New South Wales publishes yearly visits for six state institutions, all in Sydney. <strong>Note:</strong> this is the full extent of the time-series data available — six NSW institutions, 2018–2019 to 2023–2024. There is no national series and nothing back to 2000, so the streamgraph and slope chart below are rescoped accordingly rather than showing a 2000–2024 or national picture.</p>
+<div class="one" style="max-width:880px"><figure><div class="plot" id="c12"></div><figcaption>Streamgraph. <span class="swap-note">Rescoped</span> — NSW only, 6 years, not national/24-year. <a href="specs/c12_streamgraph.json">JSON</a></figcaption></figure></div>
+<div class="one"><figure><div class="plot" id="c06"></div><figcaption>Matrix heatmap — institutions × year, colour shows recovery vs 2018–2019. <span class="swap-note">Swapped</span> — no exhibition-theme data exists; shown instead is each institution's visit trend by year. <a href="specs/c06_recovery_heatmap.json">JSON</a></figcaption></figure></div>
 <div class="grid2">
 <figure><div class="plot" id="c13"></div><figcaption>Dumbbell — pre-pandemic vs today. <a href="specs/c13_dumbbell_covid.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c17"></div><figcaption>Slope chart — rank shift. <span class="swap-note">Rescoped</span> — 2018–19 vs 2023–24, not 2015 vs 2024. <a href="specs/c17_slope_rank.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c17"></div><figcaption>Slope chart — rank shift. <span class="swap-note">Rescoped</span> — 2018–2019 vs 2023–2024, not 2015 vs 2024. <a href="specs/c17_slope_rank.json">JSON</a></figcaption></figure>
 </div>
 <div class="grid2">
 <figure><div class="plot" id="c16"></div><figcaption>Box plot — visit volatility. <span class="swap-note">Swapped</span> — no exhibition run-length data exists; shown instead is the spread of each institution's own annual visits. <a href="specs/c16_boxplot_institution.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c11"></div><figcaption>Point map of the six Sydney sites, for reference. <a href="specs/c11_sydney_map.json">JSON</a></figcaption></figure>
+<figure><div class="plot" id="c11"></div><figcaption>Proportional symbol map of the six Sydney sites — drag the slider to step through the years. A schematic locator, not a basemap. <a href="specs/c11_sydney_map.json">JSON</a></figcaption></figure>
 </div>
 <p class="lede" style="margin-top:8px">Each institution counts "a visit" by its own method (noted in the data), so compare each line with its own past rather than across institutions. The Powerhouse's 2023–24 dip reflects its Ultimo site partially closing in Feb 2024 for heritage works, not a drop in interest.</p>
 </section>
@@ -109,41 +126,33 @@ table.plan th{background:#EDEFE9}
 
 <div class="closing"><div class="wrap">
 <h2>Preservation vs. engagement</h2>
-<p>The data measure who comes, not what's on display — but three things stand out. Repeat visits are rare, so new exhibitions matter for pulling people back. Access is uneven: lower-income and lower-education groups visit far less, and regional areas trail capital cities. And change can work: the Australian Museum's visits grew almost fourfold since 2018–19, while the Powerhouse's heritage closure shows that protecting an old building can cost visitors in the short term. Preserving the past and reaching today's audience aren't opposites — but neither happens automatically.</p>
+<p>The data measure who comes, not what's on display — but three things stand out. Repeat visits are rare, so new exhibitions matter for pulling people back. Access is uneven: lower-income and lower-education groups visit far less, and regional areas trail capital cities. And change can work: the Australian Museum's visits grew almost fourfold since 2018–2019, while the Powerhouse's heritage closure shows that protecting an old building can cost visitors in the short term. Preserving the past and reaching today's audience aren't opposites — but neither happens automatically.</p>
 </div></div>
 
 <footer><div class="wrap">
-<h3>Swaps and rescopes from the original sketch</h3>
-<table class="plan">
-<tr><th>Sketch panel</th><th>What's shown instead</th><th>Why</th></tr>
-<tr><td>Cartogram — domestic visitor flow</td><td>Tile-grid cartogram, museum vs gallery preference</td><td>No origin→destination travel data in any source</td></tr>
-<tr><td>Streamgraph — trends 2000–2024</td><td>NSW institutions only, 2018–19 to 2023–24</td><td>No national or pre-2018 series exists</td></tr>
-<tr><td>Radial — seasonal pattern</td><td>Radial chart of attendance by age group</td><td>No monthly/seasonal data in any source</td></tr>
-<tr><td>Treemap — collection size by category</td><td>Treemap of venue types by attendance rate</td><td>No museum collection-size data exists</td></tr>
-<tr><td>Matrix heatmap — exhibition themes × museum</td><td>Kept conceptually, repurposed as institution × year recovery</td><td>No exhibition-theme data exists</td></tr>
-<tr><td>Box plot — exhibition run-length spread</td><td>Box plot of each institution's annual visit volatility</td><td>No exhibition run-length data exists</td></tr>
-<tr><td>Slope chart — rank shift, 2015 vs 2024</td><td>Rank shift, 2018–19 vs 2023–24</td><td>No 2015 or national data exists</td></tr>
-<tr><td>Icon array — students via education programs</td><td>Pictogram of visit frequency</td><td>No education-program data exists</td></tr>
-</table>
-
 <h3>Data sources</h3>
 <ul>
-<li>Australian Bureau of Statistics, <em>Cultural and creative activities, 2021–22</em>, Tables 14, 16, 19–21, released 21 April 2023.</li>
-<li>Australian Bureau of Statistics, <em>National, state and territory population</em> (3101.0), Table 4, June 2022 quarter.</li>
-<li>NSW cultural institutions, <em>In-person visits to cultural institutions, NSW</em> workbook, 2018–19 to 2023–24. [Add publisher and URL]</li>
-<li>State boundaries: github.com/rowanhogan/australian-states, simplified. [Confirm licence]</li>
+<li>Australian Bureau of Statistics, <a href="https://www.abs.gov.au/statistics/people/people-and-communities/cultural-and-creative-activities/latest-release"><em>Cultural and creative activities, 2021–22 financial year</em></a>, Tables 14, 16, 19–21, released 21 April 2023.</li>
+<li>Australian Bureau of Statistics, <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population/jun-2022"><em>National, state and territory population, June 2022</em></a>, released 15 December 2022.</li>
+<li>NSW Department of Creative Industries, Tourism, Hospitality and Sport, <a href="https://data.nsw.gov.au/data/dataset/in-person-visits-to-nsw-cultural-institutions-xlsx"><em>In-person visits to NSW cultural institutions</em></a>, 2018–19 to 2023–24. Licensed under Creative Commons Attribution.</li>
+<li>State and territory boundaries: <a href="https://github.com/rowanhogan/australian-states">rowanhogan/australian-states</a> (GeoJSON), simplified and converted to TopoJSON for this page. No licence is stated in that repository.</li>
+<li>Museum locations: © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, available under the Open Database Licence (ODbL).</li>
 </ul>
-<h3>Limits</h3>
-<p>No source file contains collection sizes, exhibition counts, seasonal visitation, education-program reach, or inter-state visitor flow — the eight panels above that swap or rescope do so because that data simply isn't available, not by design choice. ABS figures are survey estimates; NSW visits are rounded to 0.1 million and counted by each institution's own method.</p>
-<h3>Acknowledgement</h3>
-<p>Built with Vega-Lite. An AI assistant (Claude, Anthropic) helped write the code and page text; [describe your own contribution]. Every chart's JSON is in the <code>specs</code> folder and its data in <code>data</code>.</p>
 </div></footer>
 
 <script>
-const charts={c01:'c01_choropleth',c02:'c02_symbol_map',c03:'c03_tile_grid',c08:'c08_butterfly',c09:'c09_who_goes',c10:'c10_waffle',c11:'c11_sydney_map',c12:'c12_streamgraph',c13:'c13_dumbbell_covid',c14:'c14_radial_age',c15:'c15_treemap_venues',c16:'c16_boxplot_institution',c17:'c17_slope_rank'};
+const charts={c01:'c01_choropleth',c02:'c02_symbol_map',c03:'c03_dorling_cartogram',c06:'c06_recovery_heatmap',c08:'c08_butterfly',c09:'c09_who_goes',c10:'c10_waffle',c11:'c11_sydney_map',c12:'c12_streamgraph',c13:'c13_dumbbell_covid',c14:'c14_radial_age',c15:'c15_treemap_venues',c16:'c16_boxplot_institution',c17:'c17_slope_rank',c18:'c18_dot_map',c19:'c19_symbol_reliability'};
+if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.1,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('main h2, main .lede, main figure, .closing .wrap').forEach(el=>{el.classList.add('reveal');io.observe(el)});
+}
 document.fonts.ready.then(()=>{
   for(const [id,f] of Object.entries(charts)){
-    vegaEmbed('#'+id,'specs/'+f+'.json',{actions:false,renderer:'svg'}).catch(e=>{document.getElementById(id).textContent='Chart could not load: '+e.message;});
+    try {
+      vegaEmbed('#'+id,'specs/'+f+'.json',{actions:{export:true,source:true,compiled:false,editor:true},renderer:'svg'}).catch(e=>{document.getElementById(id).textContent='Chart could not load: '+e.message;});
+    } catch(e) {
+      document.getElementById(id).textContent='Chart could not load: '+e.message;
+    }
   }
 });
 </script>
