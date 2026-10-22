@@ -1,107 +1,123 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "config": {
-    "font": "Public Sans",
-    "background": null,
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d",
-      "domainColor": "#b9c0bb",
-      "tickColor": "#b9c0bb",
-      "gridColor": "#e3e6e1",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600
-    },
-    "legend": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600,
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d"
-    },
-    "title": {
-      "font": "Fraunces",
-      "fontSize": 19,
-      "fontWeight": 600,
-      "anchor": "start",
-      "color": "#16262B",
-      "subtitleFont": "Public Sans",
-      "subtitleColor": "#5b6a6c",
-      "subtitleFontSize": 13,
-      "subtitlePadding": 6,
-      "offset": 12
-    }
-  },
-  "width": 420,
-  "height": 420,
-  "title": {
-    "text": "Most visitors come once a year",
-    "subtitle": "If 100 museum-goers were squares: how many times each visited in 12 months"
-  },
-  "data": {
-    "url": "data/frequency.csv"
-  },
-  "mark": {
-    "type": "square",
-    "size": 1300,
-    "opacity": 1
-  },
-  "encoding": {
-    "x": {
-      "field": "x",
-      "type": "ordinal",
-      "axis": null,
-      "scale": {
-        "paddingInner": 0.12
-      }
-    },
-    "y": {
-      "field": "y",
-      "type": "ordinal",
-      "axis": null,
-      "scale": {
-        "paddingInner": 0.12
-      }
-    },
-    "color": {
-      "field": "times",
-      "type": "nominal",
-      "scale": {
-        "domain": [
-          "Once",
-          "Twice",
-          "3 times",
-          "4 times",
-          "5 times",
-          "6 or more"
-        ],
-        "range": [
-          "#C9862B",
-          "#14524B",
-          "#2A7F74",
-          "#5FA89C",
-          "#9CCBC2",
-          "#D6E8E3"
-        ]
-      },
-      "legend": {
-        "title": "Visits in a year",
-        "orient": "right"
-      }
-    },
-    "tooltip": [
-      {
-        "field": "times",
-        "title": "Visited"
-      }
-    ]
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "width": 420,
+ "height": 420,
+ "title": {
+  "text": "Most visitors come once a year",
+  "subtitle": [
+   "One square is 1% of museum visitors, 2021–22.",
+   "Each square shows how many times that visitor went."
+  ]
+ },
+ "data": {
+  "url": "data/frequency.csv"
+ },
+ "transform": [
+  {
+   "calculate": "{'Once':'Once · 59%','Twice':'Twice · 23%','3 times':'3 times · 9%','4 times':'4 times · 3%','5 times':'5 times · 2%','6 or more':'6 or more · 4%'}[datum.times]",
+   "as": "label"
   }
+ ],
+ "mark": {
+  "type": "square",
+  "size": 1300,
+  "opacity": 1
+ },
+ "encoding": {
+  "x": {
+   "field": "x",
+   "type": "ordinal",
+   "axis": null,
+   "scale": {
+    "paddingInner": 0.12
+   }
+  },
+  "y": {
+   "field": "y",
+   "type": "ordinal",
+   "axis": null,
+   "scale": {
+    "paddingInner": 0.12
+   }
+  },
+  "color": {
+   "field": "label",
+   "type": "nominal",
+   "scale": {
+    "domain": [
+     "Once · 59%",
+     "Twice · 23%",
+     "3 times · 9%",
+     "4 times · 3%",
+     "5 times · 2%",
+     "6 or more · 4%"
+    ],
+    "range": [
+     "#C9862B",
+     "#142D52",
+     "#2A4C7F",
+     "#5F7CA8",
+     "#9CAFCB",
+     "#D6DDE8"
+    ]
+   },
+   "legend": {
+    "title": "Visits in a year (share of visitors)",
+    "orient": "right",
+    "titleLimit": 220,
+    "labelLimit": 160
+   }
+  },
+  "tooltip": [
+   {
+    "field": "times",
+    "title": "Visited"
+   }
+  ]
+ },
+ "config": {
+  "font": "Public Sans",
+  "background": null,
+  "view": {
+   "stroke": null
+  },
+  "text": {
+   "font": "Public Sans",
+   "fontSize": 13,
+   "color": "#161E2B"
+  },
+  "axis": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D",
+   "domainColor": "#b9c0bb",
+   "tickColor": "#b9c0bb",
+   "gridColor": "#e3e6e1",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600
+  },
+  "legend": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600,
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D"
+  },
+  "title": {
+   "font": "Fraunces",
+   "fontSize": 18,
+   "fontWeight": 600,
+   "anchor": "start",
+   "color": "#161E2B",
+   "subtitleFont": "Public Sans",
+   "subtitleColor": "#5b6a6c",
+   "subtitleFontSize": 13,
+   "subtitlePadding": 6,
+   "offset": 12
+  }
+ }
 }
