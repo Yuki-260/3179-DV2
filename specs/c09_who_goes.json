@@ -1,323 +1,358 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "config": {
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "Learning and earning shape who visits",
+  "subtitle": [
+   "Rate compared with the national average, 2021–22.",
+   "Labels show each group's own rate (%)."
+  ]
+ },
+ "vconcat": [
+  {
+   "height": 280,
+   "width": 520,
+   "title": {
+    "text": "Highest education",
+    "fontSize": 13,
     "font": "Public Sans",
-    "background": null,
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d",
-      "domainColor": "#b9c0bb",
-      "tickColor": "#b9c0bb",
-      "gridColor": "#e3e6e1",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600
-    },
-    "legend": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600,
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d"
-    },
-    "title": {
-      "font": "Fraunces",
-      "fontSize": 19,
-      "fontWeight": 600,
-      "anchor": "start",
-      "color": "#16262B",
-      "subtitleFont": "Public Sans",
-      "subtitleColor": "#5b6a6c",
-      "subtitleFontSize": 13,
-      "subtitlePadding": 6,
-      "offset": 12
+    "fontWeight": 600,
+    "anchor": "start",
+    "offset": 6
+   },
+   "data": {
+    "url": "data/who.csv"
+   },
+   "transform": [
+    {
+     "filter": "datum.group=='Highest education'"
     }
+   ],
+   "encoding": {
+    "y": {
+     "field": "label",
+     "type": "nominal",
+     "sort": null,
+     "title": null,
+     "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelLimit": 250,
+      "labelFontSize": 13,
+      "orient": "left",
+      "labelPadding": 6,
+      "minExtent": 200
+     }
+    }
+   },
+   "layer": [
+    {
+     "mark": {
+      "type": "bar",
+      "height": {
+       "band": 0.7
+      }
+     },
+     "encoding": {
+      "x": {
+       "field": "diff",
+       "type": "quantitative",
+       "title": "Points above (+) or below (−) the national 17.2%",
+       "scale": {
+        "domain": [
+         -14,
+         14
+        ]
+       },
+       "axis": {
+        "tickCount": 6
+       }
+      },
+      "color": {
+       "condition": {
+        "test": "datum.diff>=0",
+        "value": "#142D52"
+       },
+       "value": "#C9862B"
+      },
+      "tooltip": [
+       {
+        "field": "label"
+       },
+       {
+        "field": "rate",
+        "title": "Visited a museum (%)"
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.diff>=0"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "dx": 5,
+      "fontSize": 13,
+      "fontWeight": 600
+     },
+     "encoding": {
+      "x": {
+       "field": "diff",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "rate",
+       "format": ".1f"
+      },
+      "color": {
+       "value": "#161E2B"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.diff<0"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "right",
+      "dx": -5,
+      "fontSize": 13,
+      "fontWeight": 600
+     },
+     "encoding": {
+      "x": {
+       "field": "diff",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "rate",
+       "format": ".1f"
+      },
+      "color": {
+       "value": "#161E2B"
+      }
+     }
+    },
+    {
+     "data": {
+      "values": [
+       {
+        "k": 1
+       }
+      ]
+     },
+     "mark": {
+      "type": "text",
+      "align": "right",
+      "baseline": "top",
+      "fontWeight": 600,
+      "fontSize": 13,
+      "lineHeight": 16,
+      "color": "#161E2B",
+      "text": [
+       "Postgraduates visit at 28.2%,",
+       "three times the 8.9% of Year 10."
+      ]
+     },
+     "encoding": {
+      "x": {
+       "value": 520
+      },
+      "y": {
+       "value": 150
+      }
+     }
+    }
+   ]
+  },
+  {
+   "height": 195,
+   "width": 520,
+   "title": {
+    "text": "Household income",
+    "fontSize": 13,
+    "font": "Public Sans",
+    "fontWeight": 600,
+    "anchor": "start",
+    "offset": 6
+   },
+   "data": {
+    "url": "data/who.csv"
+   },
+   "transform": [
+    {
+     "filter": "datum.group=='Household income'"
+    }
+   ],
+   "encoding": {
+    "y": {
+     "field": "label",
+     "type": "nominal",
+     "sort": null,
+     "title": null,
+     "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelLimit": 250,
+      "labelFontSize": 13,
+      "orient": "left",
+      "labelPadding": 6,
+      "minExtent": 200
+     }
+    }
+   },
+   "layer": [
+    {
+     "mark": {
+      "type": "bar",
+      "height": {
+       "band": 0.7
+      }
+     },
+     "encoding": {
+      "x": {
+       "field": "diff",
+       "type": "quantitative",
+       "title": "Points above (+) or below (−) the national 17.2%",
+       "scale": {
+        "domain": [
+         -14,
+         14
+        ]
+       },
+       "axis": {
+        "tickCount": 6
+       }
+      },
+      "color": {
+       "condition": {
+        "test": "datum.diff>=0",
+        "value": "#142D52"
+       },
+       "value": "#C9862B"
+      },
+      "tooltip": [
+       {
+        "field": "label"
+       },
+       {
+        "field": "rate",
+        "title": "Visited a museum (%)"
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.diff>=0"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "dx": 5,
+      "fontSize": 13,
+      "fontWeight": 600
+     },
+     "encoding": {
+      "x": {
+       "field": "diff",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "rate",
+       "format": ".1f"
+      },
+      "color": {
+       "value": "#161E2B"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.diff<0"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "right",
+      "dx": -5,
+      "fontSize": 13,
+      "fontWeight": 600
+     },
+     "encoding": {
+      "x": {
+       "field": "diff",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "rate",
+       "format": ".1f"
+      },
+      "color": {
+       "value": "#161E2B"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "resolve": {
+  "scale": {
+   "x": "shared"
+  }
+ },
+ "config": {
+  "font": "Public Sans",
+  "background": null,
+  "view": {
+   "stroke": null
+  },
+  "text": {
+   "font": "Public Sans",
+   "fontSize": 13,
+   "color": "#161E2B"
+  },
+  "axis": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D",
+   "domainColor": "#b9c0bb",
+   "tickColor": "#b9c0bb",
+   "gridColor": "#e3e6e1",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600
+  },
+  "legend": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600,
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D"
   },
   "title": {
-    "text": "Learning and earning shape who visits",
-    "subtitle": [
-      "Museum attendance rate compared with the national average, 2021–2022. Labels show each group's own",
-      "rate, %"
-    ]
-  },
-  "vconcat": [
-    {
-      "height": 280,
-      "width": 600,
-      "title": {
-        "text": "Highest education",
-        "fontSize": 14.5,
-        "font": "Public Sans",
-        "fontWeight": 700,
-        "anchor": "start",
-        "offset": 6
-      },
-      "data": {
-        "url": "data/who.csv"
-      },
-      "transform": [
-        {
-          "filter": "datum.group=='Highest education'"
-        }
-      ],
-      "encoding": {
-        "y": {
-          "field": "label",
-          "type": "nominal",
-          "sort": null,
-          "title": null,
-          "axis": {
-            "domain": false,
-            "ticks": false,
-            "labelLimit": 250,
-            "labelFontSize": 13,
-            "orient": "left",
-            "labelPadding": 6,
-            "minExtent": 215
-          }
-        }
-      },
-      "layer": [
-        {
-          "mark": {
-            "type": "bar",
-            "height": {
-              "band": 0.7
-            }
-          },
-          "encoding": {
-            "x": {
-              "field": "diff",
-              "type": "quantitative",
-              "title": "Percentage points above (+) or below (−) the national 17.2%",
-              "scale": {
-                "domain": [
-                  -14,
-                  14
-                ]
-              },
-              "axis": {
-                "tickCount": 6
-              }
-            },
-            "color": {
-              "condition": {
-                "test": "datum.diff>=0",
-                "value": "#14524B"
-              },
-              "value": "#C9862B"
-            },
-            "tooltip": [
-              {
-                "field": "label"
-              },
-              {
-                "field": "rate",
-                "title": "Visited a museum (%)"
-              }
-            ]
-          }
-        },
-        {
-          "transform": [
-            {
-              "filter": "datum.diff>=0"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "left",
-            "dx": 5,
-            "fontSize": 13,
-            "fontWeight": 600
-          },
-          "encoding": {
-            "x": {
-              "field": "diff",
-              "type": "quantitative"
-            },
-            "text": {
-              "field": "rate",
-              "format": ".1f"
-            },
-            "color": {
-              "value": "#16262B"
-            }
-          }
-        },
-        {
-          "transform": [
-            {
-              "filter": "datum.diff<0"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "right",
-            "dx": -5,
-            "fontSize": 13,
-            "fontWeight": 600
-          },
-          "encoding": {
-            "x": {
-              "field": "diff",
-              "type": "quantitative"
-            },
-            "text": {
-              "field": "rate",
-              "format": ".1f"
-            },
-            "color": {
-              "value": "#16262B"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "height": 195,
-      "width": 600,
-      "title": {
-        "text": "Household income",
-        "fontSize": 14.5,
-        "font": "Public Sans",
-        "fontWeight": 700,
-        "anchor": "start",
-        "offset": 6
-      },
-      "data": {
-        "url": "data/who.csv"
-      },
-      "transform": [
-        {
-          "filter": "datum.group=='Household income'"
-        }
-      ],
-      "encoding": {
-        "y": {
-          "field": "label",
-          "type": "nominal",
-          "sort": null,
-          "title": null,
-          "axis": {
-            "domain": false,
-            "ticks": false,
-            "labelLimit": 250,
-            "labelFontSize": 13,
-            "orient": "left",
-            "labelPadding": 6,
-            "minExtent": 215
-          }
-        }
-      },
-      "layer": [
-        {
-          "mark": {
-            "type": "bar",
-            "height": {
-              "band": 0.7
-            }
-          },
-          "encoding": {
-            "x": {
-              "field": "diff",
-              "type": "quantitative",
-              "title": "Percentage points above (+) or below (−) the national 17.2%",
-              "scale": {
-                "domain": [
-                  -14,
-                  14
-                ]
-              },
-              "axis": {
-                "tickCount": 6
-              }
-            },
-            "color": {
-              "condition": {
-                "test": "datum.diff>=0",
-                "value": "#14524B"
-              },
-              "value": "#C9862B"
-            },
-            "tooltip": [
-              {
-                "field": "label"
-              },
-              {
-                "field": "rate",
-                "title": "Visited a museum (%)"
-              }
-            ]
-          }
-        },
-        {
-          "transform": [
-            {
-              "filter": "datum.diff>=0"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "left",
-            "dx": 5,
-            "fontSize": 13,
-            "fontWeight": 600
-          },
-          "encoding": {
-            "x": {
-              "field": "diff",
-              "type": "quantitative"
-            },
-            "text": {
-              "field": "rate",
-              "format": ".1f"
-            },
-            "color": {
-              "value": "#16262B"
-            }
-          }
-        },
-        {
-          "transform": [
-            {
-              "filter": "datum.diff<0"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "right",
-            "dx": -5,
-            "fontSize": 13,
-            "fontWeight": 600
-          },
-          "encoding": {
-            "x": {
-              "field": "diff",
-              "type": "quantitative"
-            },
-            "text": {
-              "field": "rate",
-              "format": ".1f"
-            },
-            "color": {
-              "value": "#16262B"
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "resolve": {
-    "scale": {
-      "x": "shared"
-    }
+   "font": "Fraunces",
+   "fontSize": 18,
+   "fontWeight": 600,
+   "anchor": "start",
+   "color": "#161E2B",
+   "subtitleFont": "Public Sans",
+   "subtitleColor": "#5b6a6c",
+   "subtitleFontSize": 13,
+   "subtitlePadding": 6,
+   "offset": 12
   }
+ }
 }
