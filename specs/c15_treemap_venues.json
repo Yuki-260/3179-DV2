@@ -1,199 +1,686 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "config": {
-    "font": "Public Sans",
-    "background": null,
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d",
-      "domainColor": "#b9c0bb",
-      "tickColor": "#b9c0bb",
-      "gridColor": "#e3e6e1",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600
-    },
-    "legend": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600,
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d"
-    },
-    "title": {
-      "font": "Fraunces",
-      "fontSize": 19,
-      "fontWeight": 600,
-      "anchor": "start",
-      "color": "#16262B",
-      "subtitleFont": "Public Sans",
-      "subtitleColor": "#5b6a6c",
-      "subtitleFontSize": 13,
-      "subtitlePadding": 6,
-      "offset": 12
-    }
-  },
-  "width": 704,
-  "height": 384,
-  "title": {
-    "text": "Museums' share of a crowded field",
-    "subtitle": [
-      "Treemap sized by national attendance rate, 2021–2022 — cultural venues/events, not museum collections",
-      "(no collection-size data available)"
-    ]
-  },
-  "data": {
-    "url": "data/venues_treemap.csv",
-    "format": {
-      "parse": {
-        "x0": "number",
-        "y0": "number",
-        "x1": "number",
-        "y1": "number",
-        "is_museum": "number",
-        "rate": "number"
-      }
-    }
-  },
-  "layer": [
-    {
-      "mark": {
-        "type": "rect",
-        "stroke": "#F3F4F0",
-        "strokeWidth": 3,
-        "cornerRadius": 2
-      },
-      "encoding": {
-        "x": {
-          "field": "x0",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              0,
-              440
-            ]
-          },
-          "axis": null
-        },
-        "x2": {
-          "field": "x1"
-        },
-        "y": {
-          "field": "y0",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              0,
-              240
-            ]
-          },
-          "axis": null
-        },
-        "y2": {
-          "field": "y1"
-        },
-        "color": {
-          "field": "is_museum",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              0,
-              1
-            ],
-            "range": [
-              "#8A9694",
-              "#C9862B"
-            ]
-          },
-          "legend": null
-        },
-        "tooltip": [
-          {
-            "field": "venue"
-          },
-          {
-            "field": "rate",
-            "title": "Attendance rate (%)"
-          }
-        ]
-      }
-    },
-    {
-      "transform": [
-        {
-          "calculate": "(datum.x0+datum.x1)/2",
-          "as": "cx"
-        },
-        {
-          "calculate": "(datum.y0+datum.y1)/2-6",
-          "as": "cy"
-        },
-        {
-          "calculate": "{'Libraries or archives':'Libraries','Live music concerts or performances':'Live music','Theatre performances':'Theatre','Musicals or operas':'Musicals','Dance performances':'Dance'}[datum.venue] || datum.venue",
-          "as": "short_name"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "fontSize": 15,
-        "fontWeight": 600,
-        "color": "#fff"
-      },
-      "encoding": {
-        "x": {
-          "field": "cx",
-          "type": "quantitative"
-        },
-        "y": {
-          "field": "cy",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "short_name"
-        }
-      }
-    },
-    {
-      "transform": [
-        {
-          "calculate": "(datum.x0+datum.x1)/2",
-          "as": "cx"
-        },
-        {
-          "calculate": "(datum.y0+datum.y1)/2+10",
-          "as": "cy"
-        },
-        {
-          "calculate": "format(datum.rate, '.1f') + '%'",
-          "as": "rate_label"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "fontSize": 13.5,
-        "color": "#fff",
-        "opacity": 0.85
-      },
-      "encoding": {
-        "x": {
-          "field": "cx",
-          "type": "quantitative"
-        },
-        "y": {
-          "field": "cy",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "rate_label"
-        }
-      }
-    }
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "width": 560,
+ "height": 360,
+ "title": {
+  "text": "Where museums sit among cultural venues",
+  "subtitle": [
+   "Area: attendance rate, 2021–22. Venues grouped by type.",
+   "Rates overlap: people attend more than one venue."
   ]
+ },
+ "layer": [
+  {
+   "data": {
+    "values": [
+     {
+      "group": "Collections and heritage",
+      "total": 55.8,
+      "x0": 0,
+      "y0": 0,
+      "x1": 405.52328966521094,
+      "y1": 200.16349047141426,
+      "lab": "Collections and heritage · 55.8%"
+     },
+     {
+      "group": "Screen",
+      "total": 43.9,
+      "x0": 0,
+      "y0": 203.16349047141426,
+      "x1": 405.52328966521094,
+      "y1": 360.00000000000006,
+      "lab": "Screen · 43.9%"
+     },
+     {
+      "group": "Live performance",
+      "total": 37.7,
+      "x0": 408.52328966521094,
+      "y0": 0,
+      "x1": 560,
+      "y1": 359.9999999999997,
+      "lab": "Live performance · 37.7%"
+     }
+    ]
+   },
+   "mark": {
+    "type": "rect",
+    "fill": "#E6E9E4",
+    "stroke": null
+   },
+   "encoding": {
+    "x": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       560
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "x0"
+    },
+    "x2": {
+     "field": "x1"
+    },
+    "y": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       360,
+       0
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "y0"
+    },
+    "y2": {
+     "field": "y1"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "group": "Collections and heritage",
+      "total": 55.8,
+      "x0": 0,
+      "y0": 0,
+      "x1": 405.52328966521094,
+      "y1": 200.16349047141426,
+      "lab": "Collections and heritage · 55.8%"
+     },
+     {
+      "group": "Screen",
+      "total": 43.9,
+      "x0": 0,
+      "y0": 203.16349047141426,
+      "x1": 405.52328966521094,
+      "y1": 360.00000000000006,
+      "lab": "Screen · 43.9%"
+     },
+     {
+      "group": "Live performance",
+      "total": 37.7,
+      "x0": 408.52328966521094,
+      "y0": 0,
+      "x1": 560,
+      "y1": 359.9999999999997,
+      "lab": "Live performance · 37.7%"
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "dx": 6,
+    "dy": 4,
+    "fontWeight": 600,
+    "fontSize": 13,
+    "color": "#161E2B"
+   },
+   "encoding": {
+    "x": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       560
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "x0"
+    },
+    "y": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       360,
+       0
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "y0"
+    },
+    "text": {
+     "field": "lab"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "group": "Collections and heritage",
+      "venue": "Libraries or archives",
+      "rate": 20.4,
+      "x0": 0,
+      "y0": 22,
+      "x1": 146.35260052276527,
+      "y1": 200.1634904714143,
+      "fill": "#2A4C7F",
+      "lab": "Libraries",
+      "cx": 73.17630026138264,
+      "cy": 111.08174523570715
+     },
+     {
+      "group": "Collections and heritage",
+      "venue": "Art galleries",
+      "rate": 18.2,
+      "x0": 149.35260052276527,
+      "y0": 22,
+      "x1": 405.5232896652109,
+      "y1": 112.14055159829773,
+      "fill": "#2A4C7F",
+      "lab": "Art galleries",
+      "cx": 277.4379450939881,
+      "cy": 67.07027579914887
+     },
+     {
+      "group": "Collections and heritage",
+      "venue": "Museums",
+      "rate": 17.2,
+      "x0": 149.35260052276527,
+      "y0": 115.14055159829773,
+      "x1": 405.5232896652109,
+      "y1": 200.16349047141426,
+      "fill": "#C9862B",
+      "lab": "Museums",
+      "cx": 277.4379450939881,
+      "cy": 157.652021034856
+     },
+     {
+      "group": "Screen",
+      "venue": "Cinemas",
+      "rate": 43.9,
+      "x0": 0,
+      "y0": 225.16349047141426,
+      "x1": 405.523289665211,
+      "y1": 360.00000000000006,
+      "fill": "#6F8190",
+      "lab": "Cinemas",
+      "cx": 202.7616448326055,
+      "cy": 292.58174523570716
+     },
+     {
+      "group": "Live performance",
+      "venue": "Live music",
+      "rate": 17.6,
+      "x0": 408.52328966521094,
+      "y0": 22,
+      "x1": 560,
+      "y1": 178.19363395225452,
+      "fill": "#5B84B1",
+      "lab": "Live music",
+      "cx": 484.2616448326055,
+      "cy": 100.09681697612726
+     },
+     {
+      "group": "Live performance",
+      "venue": "Theatre",
+      "rate": 8,
+      "x0": 408.52328966521094,
+      "y0": 181.19363395225452,
+      "x1": 487.9108685104318,
+      "y1": 313.8700265251987,
+      "fill": "#5B84B1",
+      "lab": "Theatre",
+      "cx": 448.2170790878214,
+      "cy": 247.5318302387266
+     },
+     {
+      "group": "Live performance",
+      "venue": "Musicals or operas",
+      "rate": 7,
+      "x0": 490.9108685104318,
+      "y0": 181.19363395225452,
+      "x1": 560,
+      "y1": 313.8700265251987,
+      "fill": "#5B84B1",
+      "lab": "Musicals",
+      "cx": 525.4554342552159,
+      "cy": 247.5318302387266
+     },
+     {
+      "group": "Live performance",
+      "venue": "Dance",
+      "rate": 5.1,
+      "x0": 408.52328966521094,
+      "y0": 316.8700265251987,
+      "x1": 560,
+      "y1": 359.9999999999997,
+      "fill": "#5B84B1",
+      "lab": "Dance",
+      "cx": 484.2616448326055,
+      "cy": 338.4350132625992
+     }
+    ]
+   },
+   "mark": {
+    "type": "rect",
+    "stroke": "#F3F4F0",
+    "strokeWidth": 2
+   },
+   "encoding": {
+    "x": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       560
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "x0"
+    },
+    "x2": {
+     "field": "x1"
+    },
+    "y": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       360,
+       0
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "y0"
+    },
+    "y2": {
+     "field": "y1"
+    },
+    "color": {
+     "field": "fill",
+     "type": "nominal",
+     "scale": null
+    },
+    "tooltip": [
+     {
+      "field": "group",
+      "title": "Group"
+     },
+     {
+      "field": "venue",
+      "title": "Venue"
+     },
+     {
+      "field": "rate",
+      "title": "Attendance rate (%)"
+     }
+    ]
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "group": "Collections and heritage",
+      "venue": "Libraries or archives",
+      "rate": 20.4,
+      "x0": 0,
+      "y0": 22,
+      "x1": 146.35260052276527,
+      "y1": 200.1634904714143,
+      "fill": "#2A4C7F",
+      "lab": "Libraries",
+      "cx": 73.17630026138264,
+      "cy": 111.08174523570715
+     },
+     {
+      "group": "Collections and heritage",
+      "venue": "Art galleries",
+      "rate": 18.2,
+      "x0": 149.35260052276527,
+      "y0": 22,
+      "x1": 405.5232896652109,
+      "y1": 112.14055159829773,
+      "fill": "#2A4C7F",
+      "lab": "Art galleries",
+      "cx": 277.4379450939881,
+      "cy": 67.07027579914887
+     },
+     {
+      "group": "Collections and heritage",
+      "venue": "Museums",
+      "rate": 17.2,
+      "x0": 149.35260052276527,
+      "y0": 115.14055159829773,
+      "x1": 405.5232896652109,
+      "y1": 200.16349047141426,
+      "fill": "#C9862B",
+      "lab": "Museums",
+      "cx": 277.4379450939881,
+      "cy": 157.652021034856
+     },
+     {
+      "group": "Screen",
+      "venue": "Cinemas",
+      "rate": 43.9,
+      "x0": 0,
+      "y0": 225.16349047141426,
+      "x1": 405.523289665211,
+      "y1": 360.00000000000006,
+      "fill": "#6F8190",
+      "lab": "Cinemas",
+      "cx": 202.7616448326055,
+      "cy": 292.58174523570716
+     },
+     {
+      "group": "Live performance",
+      "venue": "Live music",
+      "rate": 17.6,
+      "x0": 408.52328966521094,
+      "y0": 22,
+      "x1": 560,
+      "y1": 178.19363395225452,
+      "fill": "#5B84B1",
+      "lab": "Live music",
+      "cx": 484.2616448326055,
+      "cy": 100.09681697612726
+     },
+     {
+      "group": "Live performance",
+      "venue": "Theatre",
+      "rate": 8,
+      "x0": 408.52328966521094,
+      "y0": 181.19363395225452,
+      "x1": 487.9108685104318,
+      "y1": 313.8700265251987,
+      "fill": "#5B84B1",
+      "lab": "Theatre",
+      "cx": 448.2170790878214,
+      "cy": 247.5318302387266
+     },
+     {
+      "group": "Live performance",
+      "venue": "Musicals or operas",
+      "rate": 7,
+      "x0": 490.9108685104318,
+      "y0": 181.19363395225452,
+      "x1": 560,
+      "y1": 313.8700265251987,
+      "fill": "#5B84B1",
+      "lab": "Musicals",
+      "cx": 525.4554342552159,
+      "cy": 247.5318302387266
+     },
+     {
+      "group": "Live performance",
+      "venue": "Dance",
+      "rate": 5.1,
+      "x0": 408.52328966521094,
+      "y0": 316.8700265251987,
+      "x1": 560,
+      "y1": 359.9999999999997,
+      "fill": "#5B84B1",
+      "lab": "Dance",
+      "cx": 484.2616448326055,
+      "cy": 338.4350132625992
+     }
+    ]
+   },
+   "transform": [
+    {
+     "calculate": "datum.cy+8",
+     "as": "cy1"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "fontWeight": 600,
+    "fontSize": 13,
+    "color": "#fff"
+   },
+   "encoding": {
+    "x": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       560
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "cx"
+    },
+    "y": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       360,
+       0
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "cy1"
+    },
+    "text": {
+     "field": "lab"
+    },
+    "color": {
+     "condition": {
+      "test": "datum.venue=='Museums'",
+      "value": "#161E2B"
+     },
+     "value": "#fff"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "group": "Collections and heritage",
+      "venue": "Libraries or archives",
+      "rate": 20.4,
+      "x0": 0,
+      "y0": 22,
+      "x1": 146.35260052276527,
+      "y1": 200.1634904714143,
+      "fill": "#2A4C7F",
+      "lab": "Libraries",
+      "cx": 73.17630026138264,
+      "cy": 111.08174523570715
+     },
+     {
+      "group": "Collections and heritage",
+      "venue": "Art galleries",
+      "rate": 18.2,
+      "x0": 149.35260052276527,
+      "y0": 22,
+      "x1": 405.5232896652109,
+      "y1": 112.14055159829773,
+      "fill": "#2A4C7F",
+      "lab": "Art galleries",
+      "cx": 277.4379450939881,
+      "cy": 67.07027579914887
+     },
+     {
+      "group": "Collections and heritage",
+      "venue": "Museums",
+      "rate": 17.2,
+      "x0": 149.35260052276527,
+      "y0": 115.14055159829773,
+      "x1": 405.5232896652109,
+      "y1": 200.16349047141426,
+      "fill": "#C9862B",
+      "lab": "Museums",
+      "cx": 277.4379450939881,
+      "cy": 157.652021034856
+     },
+     {
+      "group": "Screen",
+      "venue": "Cinemas",
+      "rate": 43.9,
+      "x0": 0,
+      "y0": 225.16349047141426,
+      "x1": 405.523289665211,
+      "y1": 360.00000000000006,
+      "fill": "#6F8190",
+      "lab": "Cinemas",
+      "cx": 202.7616448326055,
+      "cy": 292.58174523570716
+     },
+     {
+      "group": "Live performance",
+      "venue": "Live music",
+      "rate": 17.6,
+      "x0": 408.52328966521094,
+      "y0": 22,
+      "x1": 560,
+      "y1": 178.19363395225452,
+      "fill": "#5B84B1",
+      "lab": "Live music",
+      "cx": 484.2616448326055,
+      "cy": 100.09681697612726
+     },
+     {
+      "group": "Live performance",
+      "venue": "Theatre",
+      "rate": 8,
+      "x0": 408.52328966521094,
+      "y0": 181.19363395225452,
+      "x1": 487.9108685104318,
+      "y1": 313.8700265251987,
+      "fill": "#5B84B1",
+      "lab": "Theatre",
+      "cx": 448.2170790878214,
+      "cy": 247.5318302387266
+     },
+     {
+      "group": "Live performance",
+      "venue": "Musicals or operas",
+      "rate": 7,
+      "x0": 490.9108685104318,
+      "y0": 181.19363395225452,
+      "x1": 560,
+      "y1": 313.8700265251987,
+      "fill": "#5B84B1",
+      "lab": "Musicals",
+      "cx": 525.4554342552159,
+      "cy": 247.5318302387266
+     },
+     {
+      "group": "Live performance",
+      "venue": "Dance",
+      "rate": 5.1,
+      "x0": 408.52328966521094,
+      "y0": 316.8700265251987,
+      "x1": 560,
+      "y1": 359.9999999999997,
+      "fill": "#5B84B1",
+      "lab": "Dance",
+      "cx": 484.2616448326055,
+      "cy": 338.4350132625992
+     }
+    ]
+   },
+   "transform": [
+    {
+     "calculate": "datum.cy-9",
+     "as": "cy2"
+    },
+    {
+     "calculate": "format(datum.rate,'.1f')+'%'",
+     "as": "rl"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "fontSize": 13,
+    "color": "#fff"
+   },
+   "encoding": {
+    "x": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       560
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "cx"
+    },
+    "y": {
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       360,
+       0
+      ],
+      "nice": false
+     },
+     "axis": null,
+     "field": "cy2"
+    },
+    "text": {
+     "field": "rl"
+    },
+    "color": {
+     "condition": {
+      "test": "datum.venue=='Museums'",
+      "value": "#161E2B"
+     },
+     "value": "#fff"
+    }
+   }
+  }
+ ],
+ "config": {
+  "font": "Public Sans",
+  "background": null,
+  "view": {
+   "stroke": null
+  },
+  "text": {
+   "font": "Public Sans",
+   "fontSize": 13,
+   "color": "#161E2B"
+  },
+  "axis": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D",
+   "domainColor": "#b9c0bb",
+   "tickColor": "#b9c0bb",
+   "gridColor": "#e3e6e1",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600
+  },
+  "legend": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600,
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D"
+  },
+  "title": {
+   "font": "Fraunces",
+   "fontSize": 18,
+   "fontWeight": 600,
+   "anchor": "start",
+   "color": "#161E2B",
+   "subtitleFont": "Public Sans",
+   "subtitleColor": "#5b6a6c",
+   "subtitleFontSize": 13,
+   "subtitlePadding": 6,
+   "offset": 12
+  }
+ }
 }
