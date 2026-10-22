@@ -7,153 +7,224 @@
 <meta name="description" content="An interactive data story on Australian museums, built with Vega-Lite.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 <style>
-:root{--ink:#16262B;--soft:#4a5a5d;--bg:#F3F4F0;--rule:#D5D9D3;--ver:#2A7F74;--deep:#14524B;--amb:#C9862B;--tint:#E3EEEA}
+  
+/* One background colour for the whole page; text and chart colours are the same as in the charts */
+:root{--ink:#161E2B;--soft:#3B424D;--bg:#F3F4F0;--rule:#CBD2CC;--deep:#142D52;--amb:#C9862B;--col:1200px}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Public Sans",system-ui,sans-serif}
-.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
-header.hero{background:var(--deep);color:#F3F4F0;padding:72px 0 64px}
-header.hero h1{font:600 clamp(2.1rem,5vw,3.6rem)/1.08 "Fraunces",Georgia,serif;letter-spacing:-.015em;margin:0 0 20px;max-width:17em}
-header.hero .hook{font:600 1.3rem "Fraunces",Georgia,serif;color:#F4D9B4;margin:0 0 18px}
-header.hero p{font-size:1.1rem;max-width:40em;margin:0 0 14px;color:#DCEBE7}
-section{padding:60px 0 20px;border-top:1px solid var(--rule)}
-section:first-of-type{border-top:0}
-h2{font:600 clamp(1.5rem,3vw,2.1rem)/1.15 "Fraunces",Georgia,serif;margin:0 0 14px;max-width:22em}
-.lede{max-width:64ch;color:var(--soft);margin:0 0 32px}
-.lede strong{color:var(--ink);font-weight:600}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-bottom:16px}
-.grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:56px;margin-bottom:56px}
-.one{max-width:none !important;margin-bottom:56px !important}
-figure{margin:0;min-width:0}
-.plot{overflow-x:auto;overflow-y:hidden}
-.plot svg{max-width:100%;height:auto}
-figcaption{font-size:.88rem;color:var(--soft);max-width:60ch;margin-top:10px;line-height:1.5}
-figcaption a{color:var(--deep);font-weight:500}
-.swap-note{display:inline-block;margin-top:6px;font-size:.78rem;font-weight:600;color:var(--amb);background:#FBF0DF;padding:2px 8px;border-radius:4px}
-.closing{background:var(--deep);color:#F3F4F0;padding:56px 0;margin-top:40px}
-.closing h2{color:#fff}
-.closing p{max-width:60ch;color:#DCEBE7;font-size:1.05rem}
-footer{background:#E8EBE5;padding:48px 0 56px;font-size:.92rem;color:var(--soft)}
-footer h3{font:600 1.2rem "Fraunces",Georgia,serif;color:var(--ink);margin:28px 0 8px}
-footer h3:first-child{margin-top:0}
-footer p,footer li{max-width:75ch;line-height:1.55}
-footer a{color:var(--deep)}
-table.plan{border-collapse:collapse;width:100%;max-width:760px;font-size:.88rem;margin-top:8px}
-table.plan th,table.plan td{border:1px solid var(--rule);padding:6px 10px;text-align:left}
-table.plan th{background:#EDEFE9}
-:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
-@media (max-width:900px){.grid3,.grid2{grid-template-columns:minmax(0,1fr)}.wrap{padding:0 18px}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Public Sans",system-ui,sans-serif}
 
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+/* Type scale (matches charts): 32 big number / 18 title / 13 body / 12 small; page text 16 */
+.wrap{max-width:var(--col);margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;margin:0;color:var(--ink)}
+h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.15;max-width:18em}
+h2{font-size:1.75rem;line-height:1.25;max-width:20em}
+h3{font-size:1.125rem;line-height:1.4}
+p{margin:0}
+
+/* Text blocks: 38ch is about 7 words per line, so none exceeds 10 */
+.text{max-width:38ch}
+.hero{padding:72px 0 40px}
+.hero .hook{font-size:1.125rem;font-weight:600;margin:24px 0 12px}
+.hero .text+.text{margin-top:12px}
+section{padding:72px 0 0}
+section>.wrap>*+*{margin-top:24px}
+.sec-tag{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--deep);margin-bottom:8px}
+.bridge{border-left:3px solid var(--deep);padding-left:16px;color:var(--soft)}
+
+/* Key charts: wide, with a takeaway. Supporting charts: quieter, no accent. */
+.key{border-top:3px solid var(--deep);padding-top:20px}
+.key .takeaway{display:block;font:600 2rem/1.2 "Public Sans",sans-serif;color:var(--deep);max-width:24ch}
+.key .takeaway-text{margin:8px 0 20px;max-width:38ch}
+.tag{display:block;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin-bottom:8px}
+.support{border-top:1px solid var(--rule);padding-top:16px}
+.pair{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.split{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.split .aside{flex:1 1 260px;max-width:38ch;padding-top:8px}
+figure{margin:0;min-width:0}
+.plot{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+figcaption{font-size:.8125rem;line-height:1.5;color:var(--soft);max-width:38ch;margin-top:8px}
+a{color:var(--deep)}
+.vega-bind,.vega-bind label,.vega-bind select,.vega-bind input{font:400 13px/1.5 "Public Sans",system-ui,sans-serif;color:var(--soft)}
+.vega-bind{margin-top:8px}
+.vega-embed details,.vega-embed summary{font-family:"Public Sans",sans-serif}
+.closing{padding:72px 0 0}
+.closing p{max-width:38ch}
+.closing p+p{margin-top:12px}
+footer{margin-top:72px;border-top:1px solid var(--rule);padding:40px 0 64px;font-size:.8125rem;line-height:1.6;color:var(--soft)}
+footer h3{font-size:1.125rem;margin:0 0 8px}
+footer h3+ul,footer h3+p{margin-top:0}
+footer section{padding:0}
+footer .block+.block{margin-top:28px}
+footer ul{margin:0;padding-left:18px;max-width:40ch}
+footer li+li{margin-top:6px}
+:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
-@keyframes heroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-header.hero h1,header.hero p{animation:heroIn .9s ease both}
-header.hero p.hook{animation-delay:.15s}
-header.hero p:last-child{animation-delay:.3s}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}header.hero h1,header.hero p{animation:none}}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+@media (max-width:700px){.wrap{padding:0 18px}.pair,.split{gap:28px}}
 </style>
 </head>
 <body>
+
 <header class="hero"><div class="wrap">
 <h1>Museums in Australia: preserving history, reaching today's audience</h1>
-<p class="hook">17.2% of Australians aged 15+ visited a museum in 2021–2022. Almost six in ten of them went only once.</p>
-<p>This page compares who museums reach, where, and how that's changing, using ABS survey data and six years of Sydney institution visit counts. Several panels below use a different chart idiom or a narrower date range than first planned — both are explained where they appear, since no real data exists for the original scope.</p>
+<p class="hook text">17.2% of Australians aged 15+ visited a museum in 2021–22. Almost six in ten went only once.</p>
+<p class="text">This page asks who museums reach, where they are, and how visits are changing. It uses ABS survey data and six years of Sydney visit counts.</p>
 </div></header>
 
-<main class="wrap">
+<main>
 
-<section>
+<section id="where">
+<div class="wrap">
+<p class="sec-tag">1 · Where</p>
 <h2>Where Australia goes to museums</h2>
-<p class="lede">Nationally <strong>17.2%</strong> of people aged 15+ visited a museum in a year. The Northern Territory (<strong>30.8%</strong>) and ACT (<strong>29.7%</strong>) lead; Victoria (<strong>13.5%</strong>) trails, despite holding the second-largest population.</p>
-<div class="one" style="max-width:720px;margin-bottom:16px">
-<figure><div class="plot" id="c01"></div><figcaption>Choropleth — use the dropdown to switch between museums, art galleries, libraries/archives and cinemas. <a href="specs/c01_choropleth.json">JSON</a></figcaption></figure>
-</div>
-<div class="grid2">
-<figure><div class="plot" id="c02"></div><figcaption>Symbol map — museum visitors by state. <a href="specs/c02_symbol_map.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c03"></div><figcaption>Dorling cartogram: each circle's area is proportional to the state's population aged 15+; colour is museum attendance. <span class="swap-note">Swapped</span> — "domestic visitor flow" needs origin→destination travel data, which doesn't exist in any source file. <a href="specs/c03_dorling_cartogram.json">JSON</a></figcaption></figure>
-</div>
-<div class="one" style="max-width:560px;margin-top:16px">
-<figure><div class="plot" id="c18"></div><figcaption>Dot map — 1,312 named museums across Australia (OpenStreetMap). <a href="specs/c18_dot_map.json">JSON</a></figcaption></figure>
-</div>
-<div class="one" style="max-width:none;margin-top:16px">
-<figure><div class="plot" id="c19"></div><figcaption>Proportional symbol map: circle size is museum visitors per 1,000 residents, colour is the survey's margin of error (RSE). Smaller states have less reliable estimates. <a href="specs/c19_symbol_reliability.json">JSON</a></figcaption></figure>
-</div>
+<p class="text">We start with the national picture: how likely people are to visit, and where the crowds are.</p>
 
+<figure class="key">
+<span class="takeaway">30.8% in the NT, 13.5% in Victoria</span>
+<p class="takeaway-text">Rates are highest in the smallest places. Use the dropdown to compare other venues.</p>
+<div class="plot" id="c01"></div>
+<figcaption>Share of people aged 15+ who visited in a year. <a href="specs/c01_choropleth.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c02"></div>
+<figcaption>Rates show likelihood. Counts show where the crowds are. <a href="specs/c02_symbol_map.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c18"></div>
+<figcaption>Locations from OpenStreetMap. <a href="specs/c18_dot_map.json">View JSON</a></figcaption>
+</figure>
+</div>
 </section>
 
-
-<section>
+<section id="sydney">
+<div class="wrap">
+<p class="sec-tag">2 · Sydney</p>
 <h2>Six years at Sydney's state institutions</h2>
-<p class="lede">New South Wales publishes yearly visits for six state institutions, all in Sydney. <strong>Note:</strong> this is the full extent of the time-series data available — six NSW institutions, 2018–2019 to 2023–2024. There is no national series and nothing back to 2000, so the streamgraph and slope chart below are rescoped accordingly rather than showing a 2000–2024 or national picture.</p>
-<div class="one" style="max-width:880px"><figure><div class="plot" id="c12"></div><figcaption>Streamgraph. <span class="swap-note">Rescoped</span> — NSW only, 6 years, not national/24-year. <a href="specs/c12_streamgraph.json">JSON</a></figcaption></figure></div>
-<div class="one"><figure><div class="plot" id="c06"></div><figcaption>Matrix heatmap — institutions × year, colour shows recovery vs 2018–2019. <span class="swap-note">Swapped</span> — no exhibition-theme data exists; shown instead is each institution's visit trend by year. <a href="specs/c06_recovery_heatmap.json">JSON</a></figcaption></figure></div>
-<div class="grid2">
-<figure><div class="plot" id="c13"></div><figcaption>Dumbbell — pre-pandemic vs today. <a href="specs/c13_dumbbell_covid.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c17"></div><figcaption>Slope chart — rank shift. <span class="swap-note">Rescoped</span> — 2018–2019 vs 2023–2024, not 2015 vs 2024. <a href="specs/c17_slope_rank.json">JSON</a></figcaption></figure>
+<p class="bridge text">State rates show where people go, not how visits change. Sydney's six state institutions publish yearly counts, so we zoom in there.</p>
+
+<figure class="key">
+<span class="takeaway">7.6m visits in 2023–24, up from 6.4m</span>
+<p class="takeaway-text">Visits fell to 2.3m in 2020–21, then more than recovered.</p>
+<div class="plot" id="c12"></div>
+<figcaption>NSW institutions only, 2018–19 to 2023–24. <a href="specs/c12_streamgraph.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c06"></div>
+<figcaption>Each site counts a visit its own way, so compare each row with itself. <a href="specs/c06_recovery_heatmap.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c13"></div>
+<figcaption>Five of six sit above or near 2018–19. The Powerhouse is the exception: its Ultimo site partly closed in 2024. <a href="specs/c13_dumbbell_covid.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c11"></div>
+<figcaption>Use the slider to step through the years. Land and roads give context only. <a href="specs/c11_sydney_map.json">View JSON</a></figcaption>
+</figure>
 </div>
-<div class="grid2">
-<figure><div class="plot" id="c16"></div><figcaption>Box plot — visit volatility. <span class="swap-note">Swapped</span> — no exhibition run-length data exists; shown instead is the spread of each institution's own annual visits. <a href="specs/c16_boxplot_institution.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c11"></div><figcaption>Proportional symbol map of the six Sydney sites — drag the slider to step through the years. The land and water are a simplified outline built from suburb boundaries, with major roads for orientation; they are shown for context only, not as a survey-quality coastline. <a href="specs/c11_sydney_map.json">JSON</a></figcaption></figure>
-</div>
-<p class="lede" style="margin-top:8px">Each institution counts "a visit" by its own method (noted in the data), so compare each line with its own past rather than across institutions. The Powerhouse's 2023–24 dip reflects its Ultimo site partially closing in Feb 2024 for heritage works, not a drop in interest.</p>
 </section>
 
-<section>
+<section id="who">
+<div class="wrap">
+<p class="sec-tag">3 · Who</p>
 <h2>Who walks through the door?</h2>
-<p class="lede">Attendance climbs through early adulthood, peaks at <strong>35–44</strong> (24.4%), then falls — and splits sharply by education and income.</p>
-<div class="grid2">
-<figure><div class="plot" id="c14"></div><figcaption>Radial chart. <span class="swap-note">Swapped</span> — no seasonal/monthly data exists; shown instead is attendance rate by age group, reframed as a life-stage pattern. <a href="specs/c14_radial_age.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c09"></div><figcaption>Education and income gap. <a href="specs/c09_who_goes.json">JSON</a></figcaption></figure>
-</div>
-<div class="grid2">
-<figure><div class="plot" id="c08"></div><figcaption>Age × sex breakdown. <a href="specs/c08_butterfly.json">JSON</a></figcaption></figure>
-<figure><div class="plot" id="c15"></div><figcaption>Treemap. <span class="swap-note">Swapped</span> — no museum collection-size data exists; shown instead is museums' attendance rate among other cultural venues. <a href="specs/c15_treemap_venues.json">JSON</a></figcaption></figure>
+<p class="bridge text">Counts say how many came back, not who they are. For that, we switch to the national survey of people.</p>
+
+<figure class="key">
+<span class="takeaway">28.2% of postgraduates visit, against 8.9% for Year 10</span>
+<p class="takeaway-text">Income shows the same gap: 25.5% at the top, 9.5% at the bottom.</p>
+<div class="plot" id="c09"></div>
+<figcaption>Gap to the national rate of 17.2%. <a href="specs/c09_who_goes.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c14"></div>
+<figcaption>Wedge size shows the rate. Hover for exact values. <a href="specs/c14_radial_age.json">View JSON</a></figcaption>
+</figure>
+
+<figure class="support">
+<span class="tag">Supporting view</span>
+<div class="plot" id="c15"></div>
+<figcaption>Museums rank fifth of eight venue types. <a href="specs/c15_treemap_venues.json">View JSON</a></figcaption>
+</figure>
 </div>
 </section>
 
-<section>
+<section id="often">
+<div class="wrap">
+<p class="sec-tag">4 · How often</p>
 <h2>How often do they come back?</h2>
-<p class="lede">If 100 museum-goers were squares: most visited only once in the past 12 months.</p>
-<div class="one"><figure><div class="plot" id="c10"></div><figcaption>Icon array / pictogram. <span class="swap-note">Swapped</span> — no education-program/student-reach data exists; shown instead is visit frequency, the closest real pictogram-worthy figure in the data. <a href="specs/c10_waffle.json">JSON</a></figcaption></figure></div>
+<p class="bridge text">Knowing who visits leaves one question: do they return? Picture 100 museum-goers.</p>
+
+<figure class="key">
+<span class="takeaway">59 of every 100 visited only once</span>
+<p class="takeaway-text">Just 4 went six times or more.</p>
+<div class="plot" id="c10"></div>
+<figcaption>Each square is 1% of visitors, 2021–22. <a href="specs/c10_waffle.json">View JSON</a></figcaption>
+</figure>
+</div>
+</section>
+
+<section class="closing">
+<div class="wrap">
+<h2>Preservation and engagement</h2>
+<p>The data show who comes, not what is on display. Three things stand out.</p>
+<p>Repeat visits are rare, so new exhibitions matter. Access is uneven by income and education. And change is possible: the Australian Museum nearly quadrupled its visits since 2018–19.</p>
+<p>Preserving the past and reaching today's audience are not opposites. Neither happens by itself.</p>
+</div>
 </section>
 
 </main>
 
-<div class="closing"><div class="wrap">
-<h2>Preservation vs. engagement</h2>
-<p>The data measure who comes, not what's on display — but three things stand out. Repeat visits are rare, so new exhibitions matter for pulling people back. Access is uneven: lower-income and lower-education groups visit far less, and regional areas trail capital cities. And change can work: the Australian Museum's visits grew almost fourfold since 2018–2019, while the Powerhouse's heritage closure shows that protecting an old building can cost visitors in the short term. Preserving the past and reaching today's audience aren't opposites — but neither happens automatically.</p>
-</div></div>
-
 <footer><div class="wrap">
+<section class="block">
+<h3>About the data</h3>
+<ul>
+<li>Visit counts cover six NSW state institutions, 2018–19 to 2023–24. No national series exists.</li>
+<li>Survey figures are ABS estimates for people aged 15+ in 2021–22. Small groups carry larger margins of error.</li>
+<li>The data measure who visits, not what is on display. No exhibition or collection data was available.</li>
+<li>The treemap sums rates that overlap, because people attend more than one venue.</li>
+</ul>
+</section>
+<section class="block">
 <h3>Data sources</h3>
 <ul>
 <li>Australian Bureau of Statistics, <a href="https://www.abs.gov.au/statistics/people/people-and-communities/cultural-and-creative-activities/latest-release"><em>Cultural and creative activities, 2021–22 financial year</em></a>, Tables 14, 16, 19–21, released 21 April 2023.</li>
 <li>Australian Bureau of Statistics, <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population/jun-2022"><em>National, state and territory population, June 2022</em></a>, released 15 December 2022.</li>
 <li>NSW Department of Creative Industries, Tourism, Hospitality and Sport, <a href="https://data.nsw.gov.au/data/dataset/in-person-visits-to-nsw-cultural-institutions-xlsx"><em>In-person visits to NSW cultural institutions</em></a>, 2018–19 to 2023–24. Licensed under Creative Commons Attribution.</li>
-<li>State and territory boundaries: <a href="https://github.com/rowanhogan/australian-states">rowanhogan/australian-states</a> (GeoJSON), simplified and converted to TopoJSON for this page. No licence is stated in that repository.</li>
-<li>Museum locations and Sydney major roads (motorway, trunk, primary and secondary): © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, available under the Open Database Licence (ODbL). Road tunnels were removed and the data simplified for this page.</li>
-<li>Sydney land outline (Sydney map): suburb boundaries from <a href="https://github.com/tonywr71/GeoJson-Data">tonywr71/GeoJson-Data</a> (GitHub), merged into a single land shape, smoothed and converted to TopoJSON for this page. No licence is stated in that repository.</li>
+<li>State and territory boundaries: <a href="https://github.com/rowanhogan/australian-states">rowanhogan/australian-states</a>, simplified and converted to TopoJSON for this page. No licence is stated in that repository.</li>
+<li>Museum locations and Sydney major roads: © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, under the Open Database Licence (ODbL). Road tunnels were removed and the data simplified.</li>
+<li>Sydney land outline: suburb boundaries from <a href="https://github.com/tonywr71/GeoJson-Data">tonywr71/GeoJson-Data</a>, merged, smoothed and converted to TopoJSON. No licence is stated in that repository.</li>
 </ul>
+</section>
 </div></footer>
 
 <script>
-const charts={c01:'c01_choropleth',c02:'c02_symbol_map',c03:'c03_dorling_cartogram',c06:'c06_recovery_heatmap',c08:'c08_butterfly',c09:'c09_who_goes',c10:'c10_waffle',c11:'c11_sydney_map',c12:'c12_streamgraph',c13:'c13_dumbbell_covid',c14:'c14_radial_age',c15:'c15_treemap_venues',c16:'c16_boxplot_institution',c17:'c17_slope_rank',c18:'c18_dot_map',c19:'c19_symbol_reliability'};
+const charts={c01:'c01_choropleth',c02:'c02_symbol_map',c18:'c18_dot_map',c12:'c12_streamgraph',c06:'c06_recovery_heatmap',c13:'c13_dumbbell_covid',c11:'c11_sydney_map',c09:'c09_who_goes',c14:'c14_radial_age',c15:'c15_treemap_venues',c10:'c10_waffle'};
 if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.1,rootMargin:'0px 0px -6% 0px'});
-  document.querySelectorAll('main h2, main .lede, main figure, .closing .wrap').forEach(el=>{el.classList.add('reveal');io.observe(el)});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.08,rootMargin:'0px 0px -5% 0px'});
+  document.querySelectorAll('main h2, main .bridge, main figure, .closing p').forEach(el=>{el.classList.add('reveal');io.observe(el)});
 }
 document.fonts.ready.then(()=>{
   for(const [id,f] of Object.entries(charts)){
-    try {
-      vegaEmbed('#'+id,'specs/'+f+'.json',{actions:{export:true,source:true,compiled:false,editor:true},renderer:'svg'}).catch(e=>{document.getElementById(id).textContent='Chart could not load: '+e.message;});
-    } catch(e) {
-      document.getElementById(id).textContent='Chart could not load: '+e.message;
-    }
+    vegaEmbed('#'+id,'specs/'+f+'.json',{actions:{export:true,source:true,compiled:false,editor:true},renderer:'svg'})
+      .catch(e=>{document.getElementById(id).textContent='Chart could not load: '+e.message;});
   }
 });
 </script>
