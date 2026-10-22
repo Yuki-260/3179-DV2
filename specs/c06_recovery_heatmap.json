@@ -1,152 +1,389 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "config": {
-    "font": "Public Sans",
-    "background": null,
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d",
-      "domainColor": "#b9c0bb",
-      "tickColor": "#b9c0bb",
-      "gridColor": "#e3e6e1",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600
-    },
-    "legend": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600,
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d"
-    },
-    "title": {
-      "font": "Fraunces",
-      "fontSize": 19,
-      "fontWeight": 600,
-      "anchor": "start",
-      "color": "#16262B",
-      "subtitleFont": "Public Sans",
-      "subtitleColor": "#5b6a6c",
-      "subtitleFontSize": 13,
-      "subtitlePadding": 6,
-      "offset": 12
-    }
-  },
-  "width": 640,
-  "height": 380,
-  "title": {
-    "text": "Who has bounced back?",
-    "subtitle": "Colour: visits compared with 2018–2019 (100 = same as before). Numbers: millions of visits"
-  },
-  "data": {
-    "url": "data/nsw_visits.csv"
-  },
-  "encoding": {
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "width": 560,
+ "height": 372,
+ "padding": {
+  "left": 5,
+  "right": 5,
+  "top": 5,
+  "bottom": 5
+ },
+ "title": {
+  "text": "Who has bounced back?",
+  "subtitle": [
+   "Colour: visits compared with 2018–19 (100 = same as before).",
+   "Hover a cell for its visits in millions."
+  ]
+ },
+ "data": {
+  "url": "data/nsw_visits.csv",
+  "format": {
+   "parse": {
+    "visits_m": "number",
+    "index": "number"
+   }
+  }
+ },
+ "transform": [
+  {
+   "calculate": "datum.index<30?'under 30':datum.index<60?'30–60':datum.index<90?'60–90':datum.index<110?'90–110':datum.index<150?'110–150':datum.index<250?'150–250':'250 or more'",
+   "as": "band"
+  }
+ ],
+ "layer": [
+  {
+   "mark": {
+    "type": "rect",
+    "stroke": "#F3F4F0",
+    "strokeWidth": 2
+   },
+   "encoding": {
     "x": {
-      "field": "year",
-      "type": "ordinal",
-      "title": null,
-      "axis": {
-        "orient": "top",
-        "labelAngle": 0
-      }
+     "field": "year",
+     "type": "ordinal",
+     "title": null,
+     "axis": {
+      "orient": "top",
+      "labelAngle": 0,
+      "domain": false,
+      "ticks": false
+     }
     },
     "y": {
-      "field": "institution",
-      "type": "nominal",
-      "title": null,
-      "sort": [
-        "Australian Museum",
-        "Art Gallery of NSW",
-        "Museums of History NSW",
-        "State Library of NSW",
-        "Sydney Opera House",
-        "Powerhouse Museum"
-      ],
-      "axis": {
-        "domain": false,
-        "ticks": false,
-        "labelFontSize": 12
-      }
-    }
-  },
-  "layer": [
-    {
-      "mark": {
-        "type": "rect",
-        "stroke": "#F3F4F0",
-        "strokeWidth": 2
-      },
-      "encoding": {
-        "color": {
-          "field": "index",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              0,
-              100,
-              380
-            ],
-            "range": [
-              "#C9862B",
-              "#F1F1EC",
-              "#14524B"
-            ]
-          },
-          "legend": {
-            "title": "% of 2018–19",
-            "values": [
-              0,
-              100,
-              200,
-              300
-            ]
-          }
-        },
-        "tooltip": [
-          {
-            "field": "institution"
-          },
-          {
-            "field": "year"
-          },
-          {
-            "field": "visits_m",
-            "title": "Visits (millions)"
-          },
-          {
-            "field": "index",
-            "title": "% of 2018–19"
-          }
-        ]
-      }
+     "field": "institution",
+     "type": "nominal",
+     "title": null,
+     "sort": [
+      "Australian Museum",
+      "Art Gallery of NSW",
+      "Museums of History NSW",
+      "State Library of NSW",
+      "Sydney Opera House",
+      "Powerhouse Museum"
+     ],
+     "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelLimit": 190
+     }
     },
+    "color": {
+     "field": "band",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "under 30",
+       "30–60",
+       "60–90",
+       "90–110",
+       "110–150",
+       "150–250",
+       "250 or more"
+      ],
+      "range": [
+       "#A8681A",
+       "#D9A24E",
+       "#F0CF96",
+       "#EFEFE9",
+       "#B7C4D8",
+       "#5F7CA8",
+       "#142D52"
+      ]
+     },
+     "legend": {
+      "title": "Visits as % of 2018–19",
+      "orient": "bottom",
+      "direction": "horizontal",
+      "columns": 7,
+      "symbolType": "square",
+      "symbolSize": 300,
+      "symbolStrokeColor": "#b9c0bb",
+      "symbolStrokeWidth": 0.5,
+      "labelLimit": 120,
+      "titleLimit": 300,
+      "offset": 14,
+      "columnPadding": 8
+     }
+    },
+    "tooltip": [
+     {
+      "field": "institution"
+     },
+     {
+      "field": "year"
+     },
+     {
+      "field": "visits_m",
+      "title": "Visits (millions)"
+     },
+     {
+      "field": "index",
+      "title": "% of 2018–19"
+     }
+    ]
+   }
+  },
+  {
+   "transform": [
     {
-      "mark": {
-        "type": "text",
-        "fontSize": 14
-      },
-      "encoding": {
-        "text": {
-          "field": "visits_m",
-          "format": ".1f"
-        },
-        "color": {
-          "condition": {
-            "test": "datum.index>220 || datum.index<40",
-            "value": "#fff"
-          },
-          "value": "#16262B"
-        }
-      }
+     "filter": "(datum.institution=='Australian Museum' && datum.year=='2023-24') || (datum.institution=='Sydney Opera House' && datum.year=='2020-21') || (datum.institution=='Powerhouse Museum' && datum.year=='2023-24')"
     }
-  ]
+   ],
+   "mark": {
+    "type": "text",
+    "fontSize": 12,
+    "fontWeight": 600
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "ordinal",
+     "title": null,
+     "axis": {
+      "orient": "top",
+      "labelAngle": 0,
+      "domain": false,
+      "ticks": false
+     }
+    },
+    "y": {
+     "field": "institution",
+     "type": "nominal",
+     "title": null,
+     "sort": [
+      "Australian Museum",
+      "Art Gallery of NSW",
+      "Museums of History NSW",
+      "State Library of NSW",
+      "Sydney Opera House",
+      "Powerhouse Museum"
+     ],
+     "axis": {
+      "domain": false,
+      "ticks": false,
+      "labelLimit": 190
+     }
+    },
+    "text": {
+     "field": "visits_m",
+     "type": "quantitative",
+     "format": ".1f"
+    },
+    "color": {
+     "condition": {
+      "test": "datum.index>=250 || datum.index<30",
+      "value": "#fff"
+     },
+     "value": "#161E2B"
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "filter": "datum.institution=='Australian Museum' && datum.year=='2023-24'"
+    }
+   ],
+   "mark": {
+    "type": "rect",
+    "fill": null,
+    "stroke": "#161E2B",
+    "strokeWidth": 2.5
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "ordinal"
+    },
+    "y": {
+     "field": "institution",
+     "type": "nominal",
+     "sort": [
+      "Australian Museum",
+      "Art Gallery of NSW",
+      "Museums of History NSW",
+      "State Library of NSW",
+      "Sydney Opera House",
+      "Powerhouse Museum"
+     ]
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "filter": "datum.institution=='Sydney Opera House' && datum.year=='2020-21'"
+    }
+   ],
+   "mark": {
+    "type": "rect",
+    "fill": null,
+    "stroke": "#161E2B",
+    "strokeWidth": 2.5
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "ordinal"
+    },
+    "y": {
+     "field": "institution",
+     "type": "nominal",
+     "sort": [
+      "Australian Museum",
+      "Art Gallery of NSW",
+      "Museums of History NSW",
+      "State Library of NSW",
+      "Sydney Opera House",
+      "Powerhouse Museum"
+     ]
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "filter": "datum.institution=='Powerhouse Museum' && datum.year=='2023-24'"
+    }
+   ],
+   "mark": {
+    "type": "rect",
+    "fill": null,
+    "stroke": "#161E2B",
+    "strokeWidth": 2.5
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "ordinal"
+    },
+    "y": {
+     "field": "institution",
+     "type": "nominal",
+     "sort": [
+      "Australian Museum",
+      "Art Gallery of NSW",
+      "Museums of History NSW",
+      "State Library of NSW",
+      "Sydney Opera House",
+      "Powerhouse Museum"
+     ]
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "fontWeight": 600,
+    "lineHeight": 16,
+    "x": 576,
+    "y": 31.0,
+    "text": [
+     "Almost 4× its 2018–19",
+     "visits by 2023–24."
+    ],
+    "color": "#161E2B"
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "fontWeight": 600,
+    "lineHeight": 16,
+    "x": 576,
+    "y": 279.0,
+    "text": [
+     "Fell to 14% in 2020–21,",
+     "then recovered to 86%."
+    ],
+    "color": "#161E2B"
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "fontWeight": 600,
+    "lineHeight": 16,
+    "x": 576,
+    "y": 341.0,
+    "text": [
+     "Still below half: its Ultimo",
+     "site partly closed in 2024."
+    ],
+    "color": "#161E2B"
+   }
+  }
+ ],
+ "config": {
+  "font": "Public Sans",
+  "background": null,
+  "view": {
+   "stroke": null
+  },
+  "text": {
+   "font": "Public Sans",
+   "fontSize": 13,
+   "color": "#161E2B"
+  },
+  "axis": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D",
+   "domainColor": "#b9c0bb",
+   "tickColor": "#b9c0bb",
+   "gridColor": "#e3e6e1",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600
+  },
+  "legend": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600,
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D"
+  },
+  "title": {
+   "font": "Fraunces",
+   "fontSize": 18,
+   "fontWeight": 600,
+   "anchor": "start",
+   "color": "#161E2B",
+   "subtitleFont": "Public Sans",
+   "subtitleColor": "#5b6a6c",
+   "subtitleFontSize": 13,
+   "subtitlePadding": 6,
+   "offset": 12
+  }
+ }
 }
