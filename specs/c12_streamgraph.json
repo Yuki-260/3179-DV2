@@ -1,230 +1,333 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "config": {
-    "font": "Public Sans",
-    "background": null,
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d",
-      "domainColor": "#b9c0bb",
-      "tickColor": "#b9c0bb",
-      "gridColor": "#e3e6e1",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600
-    },
-    "legend": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600,
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d"
-    },
-    "title": {
-      "font": "Fraunces",
-      "fontSize": 19,
-      "fontWeight": 600,
-      "anchor": "start",
-      "color": "#16262B",
-      "subtitleFont": "Public Sans",
-      "subtitleColor": "#5b6a6c",
-      "subtitleFontSize": 13,
-      "subtitlePadding": 6,
-      "offset": 12
-    }
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "config": {
+  "font": "Public Sans",
+  "background": null,
+  "view": {
+   "stroke": null
   },
-  "width": 660,
-  "height": 400,
-  "padding": {
-    "left": 5,
-    "right": 10,
-    "top": 5,
-    "bottom": 5
+  "text": {
+   "font": "Public Sans",
+   "fontSize": 13,
+   "color": "#161E2B"
+  },
+  "axis": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D",
+   "domainColor": "#b9c0bb",
+   "tickColor": "#b9c0bb",
+   "gridColor": "#e3e6e1",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600
+  },
+  "legend": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600,
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D"
   },
   "title": {
-    "text": "Six years at Sydney's state institutions",
-    "subtitle": [
-      "NSW state institutions only. Label shows visits in millions, 2018–2019 → 2023–2024."]
+   "font": "Fraunces",
+   "fontSize": 18,
+   "fontWeight": 600,
+   "anchor": "start",
+   "color": "#161E2B",
+   "subtitleFont": "Public Sans",
+   "subtitleColor": "#5b6a6c",
+   "subtitleFontSize": 13,
+   "subtitlePadding": 6,
+   "offset": 12
+  }
+ },
+ "width": 640,
+ "height": 420,
+ "padding": {
+  "left": 5,
+  "right": 5,
+  "top": 5,
+  "bottom": 5
+ },
+ "title": {
+  "text": "Six years at Sydney's state institutions",
+  "subtitle": [
+   "NSW institutions only. Labels: visits in millions, 2018–19 → 2023–24.",
+   "Click a name in the legend to highlight it."
+  ]
+ },
+ "data": {
+  "url": "data/nsw_visits.csv"
+ },
+ "encoding": {
+  "x": {
+   "field": "year",
+   "type": "ordinal",
+   "sort": [
+    "2018-19",
+    "2019-20",
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24"
+   ],
+   "title": null,
+   "axis": {
+    "labelAngle": 0,
+    "orient": "bottom",
+    "grid": false
+   }
   },
-  "data": {
-    "url": "data/nsw_visits.csv"
-  },
-  "encoding": {
-    "x": {
-      "field": "year",
-      "type": "ordinal",
-      "sort": [
-        "2018-19",
-        "2019-20",
-        "2020-21",
-        "2021-22",
-        "2022-23",
-        "2023-24"
+  "order": {
+   "field": "institution",
+   "sort": "ascending"
+  }
+ },
+ "layer": [
+  {
+   "params": [
+    {
+     "name": "institution_select",
+     "select": {
+      "type": "point",
+      "fields": [
+       "institution"
+      ]
+     },
+     "bind": "legend"
+    }
+   ],
+   "mark": {
+    "type": "area",
+    "interpolate": "monotone",
+    "line": {
+     "strokeWidth": 1,
+     "stroke": "#fff"
+    }
+   },
+   "encoding": {
+    "color": {
+     "field": "institution",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Sydney Opera House",
+       "Art Gallery of NSW",
+       "Australian Museum",
+       "State Library of NSW",
+       "Museums of History NSW",
+       "Powerhouse Museum"
       ],
+      "range": [
+       "#A9B3AF",
+       "#5B84B1",
+       "#142D52",
+       "#8A6AA3",
+       "#7D95B9",
+       "#C9862B"
+      ]
+     },
+     "legend": {
       "title": null,
-      "axis": {
-        "labelAngle": 0
+      "orient": "bottom",
+      "columns": 3
+     }
+    },
+    "opacity": {
+     "condition": {
+      "param": "institution_select",
+      "value": 1
+     },
+     "value": 0.3
+    },
+    "tooltip": [
+     {
+      "field": "institution"
+     },
+     {
+      "field": "year"
+     },
+     {
+      "field": "visits_m",
+      "title": "Visits (millions)"
+     }
+    ],
+    "y": {
+     "field": "band_lo",
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       -3.9,
+       3.9
+      ],
+      "nice": false
+     },
+     "axis": {
+      "title": "Millions of visits, stacked around a centre line",
+      "values": [
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      "labelExpr": "format(abs(datum.value),'.0f')",
+      "grid": true,
+      "gridDash": [
+       2,
+       3
+      ],
+      "domain": false,
+      "ticks": false,
+      "titleFontWeight": 600
+     }
+    },
+    "y2": {
+     "field": "band_hi"
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "window": [
+      {
+       "op": "first_value",
+       "field": "visits_m",
+       "as": "v_first"
       }
+     ],
+     "sort": [
+      {
+       "field": "year",
+       "order": "ascending"
+      }
+     ],
+     "groupby": [
+      "institution"
+     ]
+    },
+    {
+     "filter": "datum.year == '2023-24'"
+    },
+    {
+     "calculate": "(datum.band_lo + datum.band_hi) / 2",
+     "as": "band_mid"
+    },
+    {
+     "calculate": "datum.institution + '   ' + format(datum.v_first, '.1f') + ' → ' + format(datum.visits_m, '.1f')",
+     "as": "band_label"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "dx": 10,
+    "fontSize": 13,
+    "fontWeight": 600,
+    "color": "#161E2B"
+   },
+   "encoding": {
+    "y": {
+     "field": "band_mid",
+     "type": "quantitative",
+     "stack": null,
+     "scale": {
+      "domain": [
+       -3.9,
+       3.9
+      ],
+      "nice": false
+     },
+     "axis": {
+      "title": "Millions of visits, stacked around a centre line",
+      "values": [
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      "labelExpr": "format(abs(datum.value),'.0f')",
+      "grid": true,
+      "gridDash": [
+       2,
+       3
+      ],
+      "domain": false,
+      "ticks": false,
+      "titleFontWeight": 600
+     }
+    },
+    "text": {
+     "field": "band_label"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "fontWeight": 600,
+    "lineHeight": 16,
+    "text": [
+     "Combined visits: 6.4m in 2018–19,",
+     "2.3m in 2020–21, 7.6m in 2023–24."
+    ],
+    "color": "#161E2B"
+   },
+   "encoding": {
+    "x": {
+     "value": 10
     },
     "y": {
-      "field": "visits_m",
-      "type": "quantitative",
-      "stack": "center",
-      "title": null,
-      "axis": null
-    },
-    "order": {
-      "field": "institution",
-      "sort": "ascending"
+     "value": 4
     }
+   }
+  }
+ ],
+ "transform": [
+  {
+   "stack": "visits_m",
+   "groupby": [
+    "year"
+   ],
+   "offset": "center",
+   "sort": [
+    {
+     "field": "institution",
+     "order": "ascending"
+    }
+   ],
+   "as": [
+    "lo0",
+    "hi0"
+   ]
   },
-  "layer": [
-    {
-      "params": [
-        {
-          "name": "institution_select",
-          "select": {
-            "type": "point",
-            "fields": [
-              "institution"
-            ]
-          },
-          "bind": "legend"
-        }
-      ],
-      "mark": {
-        "type": "area",
-        "interpolate": "monotone",
-        "line": {
-          "strokeWidth": 1,
-          "stroke": "#fff"
-        }
-      },
-      "encoding": {
-        "color": {
-          "field": "institution",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Sydney Opera House",
-              "Art Gallery of NSW",
-              "Australian Museum",
-              "State Library of NSW",
-              "Museums of History NSW",
-              "Powerhouse Museum"
-            ],
-            "range": [
-              "#A9B3AF",
-              "#5B84B1",
-              "#14524B",
-              "#8A6AA3",
-              "#7DB9AE",
-              "#C9862B"
-            ]
-          },
-          "legend": {
-            "title": null,
-            "orient": "bottom",
-            "columns": 3
-          }
-        },
-        "opacity": {
-          "condition": {
-            "param": "institution_select",
-            "value": 1
-          },
-          "value": 0.3
-        },
-        "tooltip": [
-          {
-            "field": "institution"
-          },
-          {
-            "field": "year"
-          },
-          {
-            "field": "visits_m",
-            "title": "Visits (millions)"
-          }
-        ]
-      }
-    },
-    {
-      "transform": [
-        {
-          "stack": "visits_m",
-          "groupby": [
-            "year"
-          ],
-          "offset": "center",
-          "sort": [
-            {
-              "field": "institution",
-              "order": "ascending"
-            }
-          ],
-          "as": [
-            "band_lo",
-            "band_hi"
-          ]
-        },
-        {
-          "window": [
-            {
-              "op": "first_value",
-              "field": "visits_m",
-              "as": "v_first"
-            }
-          ],
-          "sort": [
-            {
-              "field": "year",
-              "order": "ascending"
-            }
-          ],
-          "groupby": [
-            "institution"
-          ]
-        },
-        {
-          "filter": "datum.year == '2023-24'"
-        },
-        {
-          "calculate": "(datum.band_lo + datum.band_hi) / 2",
-          "as": "band_mid"
-        },
-        {
-          "calculate": "datum.institution + '   ' + format(datum.v_first, '.1f') + ' → ' + format(datum.visits_m, '.1f')",
-          "as": "band_label"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": 10,
-        "fontSize": 14,
-        "fontWeight": 600,
-        "color": "#16262B"
-      },
-      "encoding": {
-        "y": {
-          "field": "band_mid",
-          "type": "quantitative",
-          "stack": null,
-          "axis": null
-        },
-        "text": {
-          "field": "band_label"
-        }
-      }
-    }
-  ]
+  {
+   "calculate": "datum.lo0-3.8000",
+   "as": "band_lo"
+  },
+  {
+   "calculate": "datum.hi0-3.8000",
+   "as": "band_hi"
+  }
+ ]
 }
