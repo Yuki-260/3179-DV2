@@ -1,136 +1,171 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "config": {
-    "font": "Public Sans",
-    "background": null,
-    "view": {
-      "stroke": null
-    },
-    "axis": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d",
-      "domainColor": "#b9c0bb",
-      "tickColor": "#b9c0bb",
-      "gridColor": "#e3e6e1",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600
-    },
-    "legend": {
-      "labelFont": "Public Sans",
-      "titleFont": "Public Sans",
-      "labelFontSize": 12.5,
-      "titleFontSize": 12.5,
-      "titleFontWeight": 600,
-      "labelColor": "#3b4a4d",
-      "titleColor": "#3b4a4d"
-    },
-    "title": {
-      "font": "Fraunces",
-      "fontSize": 19,
-      "fontWeight": 600,
-      "anchor": "start",
-      "color": "#16262B",
-      "subtitleFont": "Public Sans",
-      "subtitleColor": "#5b6a6c",
-      "subtitleFontSize": 13,
-      "subtitlePadding": 6,
-      "offset": 12
-    }
-  },
-  "width": 520,
-  "height": 520,
-  "title": {
-    "text": "A life-stage pattern, not a seasonal one",
-    "subtitle": [
-      "Museum attendance rate by age group, 2021–2022 (%). Shown as a radial chart since",
-      "no monthly/seasonal data exists in the source."
-    ]
-  },
-  "data": {
-    "url": "data/age_rate.csv"
-  },
-  "layer": [
-    {
-      "mark": {
-        "type": "arc",
-        "innerRadius": 50,
-        "stroke": "#F3F4F0",
-        "strokeWidth": 1.5
-      },
-      "encoding": {
-        "theta": {
-          "field": "rate",
-          "type": "quantitative",
-          "stack": true
-        },
-        "radius": {
-          "field": "rate",
-          "type": "quantitative",
-          "scale": {
-            "type": "sqrt",
-            "zero": true,
-            "rangeMin": 50
-          }
-        },
-        "color": {
-          "field": "age",
-          "type": "nominal",
-          "sort": [
-            "15–17",
-            "18–24",
-            "25–34",
-            "35–44",
-            "45–54",
-            "55–64",
-            "65–74",
-            "75+"
-          ],
-          "scale": {
-            "scheme": "teals"
-          },
-          "legend": null
-        },
-        "tooltip": [
-          {
-            "field": "age"
-          },
-          {
-            "field": "rate",
-            "title": "Attendance rate (%)"
-          }
-        ]
-      }
-    },
-    {
-      "mark": {
-        "type": "text",
-        "radiusOffset": 26,
-        "fontSize": 13.5,
-        "fontWeight": 600,
-        "color": "#16262B"
-      },
-      "encoding": {
-        "theta": {
-          "field": "rate",
-          "type": "quantitative",
-          "stack": true
-        },
-        "radius": {
-          "field": "rate",
-          "type": "quantitative",
-          "scale": {
-            "type": "sqrt",
-            "zero": true,
-            "rangeMin": 50
-          }
-        },
-        "text": {
-          "field": "age"
-        }
-      }
-    }
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "width": 440,
+ "height": 440,
+ "title": {
+  "text": "Attendance by age group",
+  "subtitle": [
+   "Museum attendance rate by age group, 2021–22 (%).",
+   "Larger wedges mean higher rates."
   ]
+ },
+ "data": {
+  "url": "data/age_rate.csv"
+ },
+ "layer": [
+  {
+   "mark": {
+    "type": "arc",
+    "innerRadius": 40,
+    "stroke": "#F3F4F0",
+    "strokeWidth": 1.5
+   },
+   "encoding": {
+    "theta": {
+     "field": "rate",
+     "type": "quantitative",
+     "stack": true
+    },
+    "radius": {
+     "field": "rate",
+     "type": "quantitative",
+     "scale": {
+      "type": "sqrt",
+      "zero": true,
+      "rangeMin": 40
+     }
+    },
+    "color": {
+     "field": "age",
+     "type": "nominal",
+     "sort": [
+      "15–17",
+      "18–24",
+      "25–34",
+      "35–44",
+      "45–54",
+      "55–64",
+      "65–74",
+      "75+"
+     ],
+     "scale": {
+      "scheme": "blues"
+     },
+     "legend": null
+    },
+    "tooltip": [
+     {
+      "field": "age"
+     },
+     {
+      "field": "rate",
+      "title": "Attendance rate (%)"
+     }
+    ]
+   }
+  },
+  {
+   "mark": {
+    "type": "text",
+    "radiusOffset": 22,
+    "fontSize": 13,
+    "fontWeight": 600,
+    "color": "#161E2B"
+   },
+   "encoding": {
+    "theta": {
+     "field": "rate",
+     "type": "quantitative",
+     "stack": true
+    },
+    "radius": {
+     "field": "rate",
+     "type": "quantitative",
+     "scale": {
+      "type": "sqrt",
+      "zero": true,
+      "rangeMin": 40
+     }
+    },
+    "text": {
+     "field": "age"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "fontWeight": 600,
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#161E2B",
+    "text": [
+     "Peak: ages 35–44,",
+     "at 24.4%."
+    ]
+   },
+   "encoding": {
+    "x": {
+     "value": 300
+    },
+    "y": {
+     "value": 420
+    }
+   }
+  }
+ ],
+ "config": {
+  "font": "Public Sans",
+  "background": null,
+  "view": {
+   "stroke": null
+  },
+  "text": {
+   "font": "Public Sans",
+   "fontSize": 13,
+   "color": "#161E2B"
+  },
+  "axis": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D",
+   "domainColor": "#b9c0bb",
+   "tickColor": "#b9c0bb",
+   "gridColor": "#e3e6e1",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600
+  },
+  "legend": {
+   "labelFont": "Public Sans",
+   "titleFont": "Public Sans",
+   "labelFontSize": 12,
+   "titleFontSize": 12,
+   "titleFontWeight": 600,
+   "labelColor": "#3B424D",
+   "titleColor": "#3B424D"
+  },
+  "title": {
+   "font": "Fraunces",
+   "fontSize": 18,
+   "fontWeight": 600,
+   "anchor": "start",
+   "color": "#161E2B",
+   "subtitleFont": "Public Sans",
+   "subtitleColor": "#5b6a6c",
+   "subtitleFontSize": 13,
+   "subtitlePadding": 6,
+   "offset": 12
+  }
+ }
 }
